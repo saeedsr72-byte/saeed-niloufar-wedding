@@ -11,8 +11,21 @@
 </head>
 <body>
 <div class="grain"></div>
-<button id="lang" class="lang">FA</button>
 
+<section id="gate" class="gate">
+  <div class="gate-bg"></div><div class="gate-shade"></div>
+  <div class="gate-content">
+    <div class="mono">S <span>&</span> N</div>
+    <div class="gate-eyebrow" data-fa="دعوت‌نامه عروسی" data-en="WEDDING INVITATION">WEDDING INVITATION</div>
+    <h1 data-fa="سعید و نیلوفر" data-en="Saeed & Niloufar">Saeed & Niloufar</h1>
+    <p data-fa="۱۰ شهریور ۱۴۰۵ • شیراز" data-en="31 August 2026 • Shiraz">31 August 2026 • Shiraz</p>
+    <button id="enter" class="pill gate-button" type="button" data-fa="ورود به دعوت‌نامه" data-en="ENTER INVITATION">ENTER INVITATION</button>
+  </div>
+</section>
+
+<button id="lang" class="lang" type="button">فارسی</button>
+
+<main id="site" class="site" hidden>
 <section class="hero">
   <div class="hero-bg"></div><div class="shade"></div>
   <div class="hero-text">
@@ -20,7 +33,6 @@
     <div class="eyebrow" data-fa="داستان ما • فصل اول" data-en="OUR STORY • CHAPTER ONE"></div>
     <h1 data-fa="سعید <span>&</span> نیلوفر" data-en="Saeed <span>&</span> Niloufar"></h1>
     <p data-fa="با عشق، آغاز این فصل را با شما جشن می‌گیریم." data-en="With love, we celebrate the beginning of this new chapter with you."></p>
-    <a href="#invite" class="pill" data-fa="ورود به دعوت‌نامه ↓" data-en="ENTER INVITATION ↓"></a>
   </div>
 </section>
 
@@ -46,8 +58,8 @@
 <section class="section venue">
   <div>
     <div class="eyebrow" data-fa="محل برگزاری" data-en="THE VENUE"></div>
-    <h2 data-fa="باغ اشکان" data-en="Bagh Ashkan"></h2>
-    <p data-fa="شیراز<br>ابتدای جاده قلات، کوچه ۲<br>اقاقیا، باغ اشکان" data-en="Shiraz<br>Beginning of Qalat Road, Alley 2<br>Aghaghia, Bagh Ashkan"></p>
+    <h2 data-fa="باغ اشکان" data-en="Ashkan Garden"></h2>
+    <p data-fa="شیراز<br>ابتدای جاده قلات<br>کوچه ۲ اقاقیا<br>باغ اشکان" data-en="Shiraz<br>Beginning of Qalat Road<br>Akaghia Alley 2<br>Ashkan Garden"></p>
     <a class="outline" target="_blank" rel="noopener" href="https://goo.gl/maps/8CHoFgn1onBiN2kY7?g_st=ac" data-fa="مسیریابی در Google Maps ↗" data-en="OPEN IN GOOGLE MAPS ↗"></a>
   </div>
   <img src="photo-3.jpg" alt="">
@@ -67,12 +79,21 @@
   <div class="eyebrow" data-fa="چند قاب از ما" data-en="A FEW MOMENTS"></div>
   <h2 data-fa="از ما، برای شما" data-en="From us, for you"></h2>
   <div class="gallery">
-    <img src="photo-1.jpg" alt=""><img src="photo-4.jpg" alt=""><img src="photo-5.jpg" alt="">
+    <img src="photo-1.jpg" alt="">
+    <img src="photo-4.jpg" alt="">
+    <img src="photo-5.jpg" alt="">
   </div>
 </section>
 
-<!-- Music controls are intentionally hidden. The active language selects its song automatically. -->
-<audio id="player" preload="auto" autoplay playsinline></audio>
+<section class="section rsvp center">
+  <div class="eyebrow" data-fa="حضور شما" data-en="RSVP"></div>
+  <h2 data-fa="آیا در جشن ما<br>همراه‌مان خواهید بود؟" data-en="Will you be<br>joining us?"></h2>
+  <p data-fa="حضور شما این شب را برای ما کامل‌تر می‌کند." data-en="Your presence would make this evening even more special to us."></p>
+  <div class="rsvp-options">
+    <button type="button" class="rsvp-btn" data-fa="بله، با افتخار می‌آیم" data-en="YES, I'LL BE THERE">YES, I'LL BE THERE</button>
+    <button type="button" class="rsvp-btn" data-fa="متأسفانه نمی‌توانم حضور داشته باشم" data-en="UNFORTUNATELY, I CAN'T ATTEND">UNFORTUNATELY, I CAN'T ATTEND</button>
+  </div>
+</section>
 
 <section class="count center">
   <div class="eyebrow" data-fa="تا جشن ما" data-en="UNTIL WE CELEBRATE"></div>
@@ -91,7 +112,9 @@
   <p data-fa="سعید رنجبر<br>&<br>نیلوفر معصومی" data-en="Saeed Ranjbar<br>&<br>Niloufar Masoumi"></p>
   <small data-fa="۱۰ شهریور ۱۴۰۵ • شیراز" data-en="31 August 2026 • Shiraz"></small>
 </section>
+</main>
 
+<audio id="player" preload="auto" autoplay playsinline></audio>
 <script src="script.js"></script>
 </body>
 </html>
