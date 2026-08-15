@@ -17,6 +17,15 @@
   }
 
   const tracks = { fa: faAudio, en: enAudio };
+  // Keep both tracks loading in the background so the click-to-open gesture
+  // can start the selected song with minimal latency.
+  const audioBuffers = { fa: null, en: null };
+  const audioLoading = { fa: null, en: null };
+  const audioContext = (() => {
+    try { return new (window.AudioContext || window.webkitAudioContext)(); } catch (_) { return null; }
+  })();
+  let activeBufferSource = null;
+
   const storedLang = (() => {
     try { return sessionStorage.getItem('snWeddingLang'); } catch (_) { return null; }
   })();
@@ -47,13 +56,53 @@
       audio.pause();
       try { audio.currentTime = 0; } catch (_) {}
     });
+    if (activeBufferSource) {
+      try { activeBufferSource.stop(); } catch (_) {}
+      try { activeBufferSource.disconnect(); } catch (_) {}
+      activeBufferSource = null;
+    }
+  }
+
+  function preloadTrack(key) {
+    if (!audioContext || audioBuffers[key] || audioLoading[key]) return audioLoading[key];
+    const src = tracks[key].getAttribute('src');
+    if (!src) return null;
+    audioLoading[key] = fetch(src, { cache: 'force-cache' })
+      .then(r => { if (!r.ok) throw new Error('Audio preload failed'); return r.arrayBuffer(); })
+      .then(buf => audioContext.decodeAudioData(buf))
+      .then(decoded => { audioBuffers[key] = decoded; return decoded; })
+      .catch(() => null);
+    return audioLoading[key];
   }
 
   function playLanguageTrack() {
-    const audio = tracks[lang];
-    const other = lang === 'fa' ? tracks.en : tracks.fa;
+    const key = lang;
+    const audio = tracks[key];
+    const other = tracks[key === 'fa' ? 'en' : 'fa'];
+
     other.pause();
     try { other.currentTime = 0; } catch (_) {}
+    if (activeBufferSource) {
+      try { activeBufferSource.stop(); } catch (_) {}
+      try { activeBufferSource.disconnect(); } catch (_) {}
+      activeBufferSource = null;
+    }
+
+    // If the Web Audio buffer is already decoded, start it immediately on
+    // the same user gesture. Otherwise fall back to the native audio element.
+    if (audioContext && audioBuffers[key]) {
+      try {
+        audioContext.resume();
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffers[key];
+        source.loop = true;
+        source.connect(audioContext.destination);
+        source.start(0);
+        activeBufferSource = source;
+        return;
+      } catch (_) {}
+    }
+
     audio.currentTime = 0;
     const promise = audio.play();
     if (promise && typeof promise.catch === 'function') promise.catch(() => {});
@@ -74,6 +123,7 @@
     opened = true;
 
     // This click is the user gesture that authorizes audio on mobile browsers.
+    if (audioContext) { try { audioContext.resume(); } catch (_) {} }
     playLanguageTrack();
 
     document.body.classList.add('gate-open');
@@ -105,6 +155,10 @@
 
   // Initial state: gate is always present on a fresh load.
   setLanguage(lang);
+  // Start network loading immediately, but do not play until the invitation click.
+  try { faAudio.load(); enAudio.load(); } catch (_) {}
+  preloadTrack('fa');
+  preloadTrack('en');
   lockGate();
 
   // Countdown is anchored to 10 Shahrivar 1405, 19:00 Tehran.
