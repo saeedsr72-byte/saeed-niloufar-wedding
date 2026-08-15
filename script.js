@@ -5,69 +5,66 @@ const langToggle = document.getElementById("langToggle");
 const faAudio = document.getElementById("faAudio");
 const enAudio = document.getElementById("enAudio");
 
-let lang = "fa";
+let lang = "fa"; // Persian is the default language.
 let opened = false;
 
-function setLanguage(next, shouldScroll = true) {
+function applyLanguage(next) {
   lang = next;
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
 
   document.querySelectorAll("[data-fa][data-en]").forEach(el => {
-    el.textContent = el.dataset[lang];
+    el.textContent = lang === "fa" ? el.dataset.fa : el.dataset.en;
   });
 
   langToggle.textContent = lang === "fa" ? "English" : "فارسی";
-
-  if (opened) {
-    const current = lang === "fa" ? faAudio : enAudio;
-    const other = lang === "fa" ? enAudio : faAudio;
-    other.pause();
-    other.currentTime = 0;
-    current.play().catch(() => {});
-  }
-
-  if (shouldScroll) {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 }
 
-langToggle.addEventListener("click", () => {
-  setLanguage(lang === "fa" ? "en" : "fa", true);
-});
-
-async function startAudio() {
+async function playCurrentTrack() {
   const current = lang === "fa" ? faAudio : enAudio;
   const other = lang === "fa" ? enAudio : faAudio;
   other.pause();
   other.currentTime = 0;
   try {
     await current.play();
-  } catch (e) {
-    // The opening click itself is still the user gesture; some browsers
-    // may require the audio file to be fully reachable before playback.
+  } catch (error) {
+    // Mobile browsers may still reject playback if the file has not loaded yet.
+    // The opening tap is a user gesture, so this is retried once on canplay.
+    current.addEventListener("canplay", () => current.play().catch(() => {}), { once: true });
   }
 }
+
+langToggle.addEventListener("click", async () => {
+  applyLanguage(lang === "fa" ? "en" : "fa");
+  if (opened) await playCurrentTrack();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 openBtn.addEventListener("click", async () => {
   if (opened) return;
   opened = true;
 
-  // The first user gesture starts the selected language track.
-  startAudio();
+  // This is the strongest autoplay fallback: the browser sees this as a direct user gesture.
+  await playCurrentTrack();
 
-  gate.classList.add("split");
+  document.body.classList.add("gate-open");
   site.classList.remove("locked");
+  gate.classList.add("split");
 
-  // Give the split animation time to breathe before removing the gate.
-  setTimeout(() => gate.classList.add("opened"), 1050);
+  // Reveal the invitation only after the seal has started opening.
   setTimeout(() => {
-    window.scrollTo(0, 0);
+    gate.classList.add("opened");
+    document.body.classList.remove("gate-open");
+    window.scrollTo({ top: 0, behavior: "instant" });
     document.querySelector(".hero")?.classList.add("visible");
-  }, 1100);
+  }, 1250);
 });
 
-// Reveal sections as the guest scrolls.
+// Try autoplay on initial load as well. If the browser blocks it, the opening tap above takes over.
+window.addEventListener("load", () => {
+  faAudio.play().catch(() => {});
+});
+
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -79,8 +76,9 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
 
-// Countdown: 31 August 2026, 19:00 local time.
-const target = new Date(2026, 7, 31, 19, 0, 0);
+// Event date/time used by the countdown. The displayed Persian and English dates are intentionally kept separate.
+// The requested English date is 1 September 2026.
+const target = new Date(2026, 8, 1, 19, 0, 0);
 
 function updateCountdown() {
   const now = new Date();
@@ -102,10 +100,8 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Default is Persian.
-setLanguage("fa", false);
+applyLanguage("fa");
 
-// Prevent dead RSVP placeholder links from jumping to the top.
 document.querySelectorAll(".rsvp-btn").forEach(btn => {
   btn.addEventListener("click", e => e.preventDefault());
 });
