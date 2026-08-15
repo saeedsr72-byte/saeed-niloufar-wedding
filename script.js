@@ -160,13 +160,12 @@
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   }
 
-  // S and N vines draw with page progress.
-  const vineS = document.getElementById('vineS');
-  const vineN = document.getElementById('vineN');
+  // S and N branches draw with page progress and meet/intertwine at the bottom.
+  const vineDraws = Array.from(document.querySelectorAll('.vine-draw'));
   let vineLengths = [];
 
   function setupVines() {
-    vineLengths = [vineS, vineN].map(path => {
+    vineLengths = vineDraws.map(path => {
       if (!path || typeof path.getTotalLength !== 'function') return 0;
       const len = path.getTotalLength();
       path.style.strokeDasharray = String(len);
@@ -176,14 +175,17 @@
   }
 
   function updateVines() {
-    if (!vineS || !vineN || !vineLengths.length) return;
+    if (!vineDraws.length || !vineLengths.length) return;
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-    const p = Math.min(1, Math.max(0, (progress - 0.04) / 0.94));
-    [vineS, vineN].forEach((path, i) => {
-      path.style.strokeDashoffset = String(vineLengths[i] * (1 - p));
+    // Start gently after the hero and finish exactly at the bottom where S and N meet.
+    const p = Math.min(1, Math.max(0, (progress - 0.015) / 0.985));
+    vineDraws.forEach((path, i) => {
+      const len = vineLengths[i] || 0;
+      path.style.strokeDashoffset = String(len * (1 - p));
     });
   }
+
   setupVines();
   updateVines();
   window.addEventListener('resize', () => { setupVines(); updateVines(); });
