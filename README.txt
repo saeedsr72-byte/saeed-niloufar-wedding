@@ -1,24 +1,10 @@
-Saeed & Niloufar Wedding Invitation — Final
+Saeed & Niloufar Wedding Invitation — final revision
 
-Replace these 3 files in the ROOT of the existing GitHub repository:
-- index.html
-- style.css
-- script.js
+Default language: Persian (فارسی)
+Date: 10 Shahrivar 1405 / 31 August 2026
+Venue: Shiraz — Beginning of Qalat Road — Aghaghia Alley 2 — Ashkan Garden
+English venue: Ashkan Garden
+Music: Pol.mp3 for Persian, Ordinary.mp3 for English
+Opening flow: You Are Invited screen -> click Open Invitation -> lotus-inspired yin-yang seal animation -> story page.
 
-Keep the existing media files:
-- photo-1.jpg through photo-5.jpg
-- Ordinary.mp3
-- Pol.mp3
-
-Changes:
-- Elegant Enter Invitation entry screen.
-- Default language: English.
-- Enter Invitation starts the selected song through a real user gesture, which is the reliable mobile fallback when autoplay is blocked.
-- Best-effort autoplay is still attempted on page load.
-- English music: Ordinary.mp3
-- Persian music: Pol.mp3
-- No visible music player.
-- Language switch returns to the top.
-- Venue: Ashkan Garden, Shiraz — Beginning of Qalat Road, Akaghia Alley 2.
-- RSVP section added.
-- Date: 31 August 2026 / 10 Shahrivar 1405.
+Upload/replace index.html, style.css and script.js in GitHub. Keep your existing photos and MP3 files.

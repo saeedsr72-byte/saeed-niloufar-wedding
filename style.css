@@ -64,6 +64,25 @@ audio{display:none}
 [dir=ltr] .timer div{border-left:0;border-right:1px solid #c8bcad}
 [dir=ltr] .timer div:last-child{border-right:0}
 [dir=ltr] .lang{right:auto;left:18px}
+
+/* Opening invitation seal — lotus-inspired yin-yang */
+.lotus-mark{position:absolute;left:50%;top:50%;width:170px;height:170px;transform:translate(-50%,-50%) scale(.72) rotate(-18deg);opacity:0;pointer-events:none;z-index:2;filter:drop-shadow(0 12px 25px #0006);}
+.yin-yang{position:absolute;inset:30px;border-radius:50%;background:linear-gradient(90deg,#f7f3ed 0 50%,#3e3934 50%);transform:rotate(0deg);box-shadow:0 0 0 1px #d8cdbf,0 0 0 8px #f7f3ed55;}
+.yin-yang:before,.yin-yang:after{content:"";position:absolute;width:50%;height:50%;border-radius:50%;top:0;}
+.yin-yang:before{left:0;background:#3e3934;transform:translateY(50%);}
+.yin-yang:after{right:0;background:#f7f3ed;transform:translateY(50%);}
+.yin-yang .dot{position:absolute;width:15%;height:15%;border-radius:50%;z-index:2;top:42.5%;}
+.yin-yang .dot.dark{left:17.5%;background:#f7f3ed;}
+.yin-yang .dot.light{right:17.5%;background:#3e3934;}
+.petal{position:absolute;left:50%;top:50%;width:54px;height:88px;border:1px solid #d8cdbf;background:#f7f3ed33;border-radius:70% 20% 70% 20%;transform-origin:50% 100%;}
+.p1{transform:translate(-50%,-100%) rotate(0deg);}.p2{transform:translate(-50%,-100%) rotate(60deg)}.p3{transform:translate(-50%,-100%) rotate(120deg)}.p4{transform:translate(-50%,-100%) rotate(180deg)}.p5{transform:translate(-50%,-100%) rotate(240deg)}.p6{transform:translate(-50%,-100%) rotate(300deg)}
+body.opening .gate-content{animation:invitationFade .7s ease forwards;}
+body.opening .lotus-mark{animation:lotusOpen 1.25s cubic-bezier(.2,.8,.2,1) forwards;}
+body.opening .gate-bg,body.opening .gate-shade{animation:gateDim .9s ease forwards;}
+@keyframes invitationFade{to{opacity:0;transform:scale(.92);}}
+@keyframes lotusOpen{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(-80deg)}35%{opacity:1}100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0deg)}}
+@keyframes gateDim{to{opacity:.18}}
+
 .gate{position:fixed;inset:0;z-index:40;display:grid;place-items:center;color:#fff;background:#25211d;overflow:hidden}
 .gate-bg{position:absolute;inset:0;background:url("photo-3.jpg") center/cover}
 .gate-shade{position:absolute;inset:0;background:linear-gradient(180deg,#18151270,#181512c4)}

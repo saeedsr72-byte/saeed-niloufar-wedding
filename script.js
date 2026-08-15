@@ -1,6 +1,6 @@
 const target = new Date("2026-08-31T19:00:00+03:30").getTime();
 
-let lang = "en";
+let lang = "fa";
 let currentTrack = "";
 let interactionUnlocked = false;
 
@@ -64,22 +64,25 @@ langButton.addEventListener("click", (e) => {
 function enterInvitation(){
   interactionUnlocked = true;
   setTrack(true);
+  document.body.classList.add("opening");
 
-  site.hidden = false;
-  document.body.classList.remove("locked");
-  gate.classList.add("fade-out");
+  // Reveal the lotus / yin-yang seal first, then begin the story.
+  setTimeout(() => {
+    site.hidden = false;
+    gate.classList.add("fade-out");
+  }, 650);
 
   setTimeout(() => {
     gate.hidden = true;
+    document.body.classList.remove("opening");
     window.scrollTo({top:0,left:0,behavior:"instant"});
-  }, 750);
+  }, 1450);
 }
 
 enter.addEventListener("click", enterInvitation);
 
 window.addEventListener("DOMContentLoaded", () => {
   applyLanguage(false);
-  playCurrentTrack();
 });
 
 function unlockAudio(){
