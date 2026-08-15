@@ -2,158 +2,163 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f7f3ed">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#24211e">
 <title>Saeed & Niloufar | Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="locked">
 
-<div id="grain" class="grain"></div>
+<div class="grain" aria-hidden="true"></div>
 
-<!-- Invitation gate: the page is not entered until the guest taps the lotus yin-yang. -->
+<!-- Entrance gate. It stays above the page until the guest taps the lotus yin-yang. -->
 <section id="gate" class="gate" aria-label="Invitation entrance">
-  <div class="gate-glow"></div>
-  <div class="gate-content">
-    <div class="gate-monogram">S <span>&</span> N</div>
-    <div class="gate-title" data-fa="شما دعوت هستید<br>برای آغاز قصه‌ی ما" data-en="You are invited<br>to begin our story">شما دعوت هستید<br>برای آغاز قصه‌ی ما</div>
+  <div class="gate-inner">
+    <img class="gate-logo" src="logo.png" alt="S & N">
+    <div class="gate-kicker" data-fa="با عشق" data-en="WITH LOVE">با عشق</div>
+    <h1 class="gate-title" data-fa="شما دعوت هستید<br>برای آغاز قصه‌ی ما" data-en="You are invited<br>to begin our story">شما دعوت هستید<br>برای آغاز قصه‌ی ما</h1>
 
-    <button id="lotusGate" class="lotus-gate" type="button" aria-label="Open invitation">
-      <span class="yin yin-left"><i></i></span>
-      <span class="yin yin-right"><i></i></span>
-      <img src="logo.png" alt="Saeed & Niloufar">
+    <button id="openInvitation" class="lotus-button" type="button" aria-label="باز کردن دعوتنامه">
+      <svg class="lotus-mark" viewBox="0 0 300 300" role="img" aria-hidden="true">
+        <defs>
+          <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".22"/>
+          </filter>
+        </defs>
+        <g class="lotus-left" filter="url(#softShadow)">
+          <path d="M150 42 C101 50 68 91 68 145 C68 197 101 234 150 258 C122 221 111 188 111 150 C111 111 122 78 150 42Z"/>
+          <path class="petal" d="M88 101 C55 91 32 67 27 43 C58 43 85 61 99 84Z"/>
+          <path class="petal" d="M91 199 C59 209 34 230 25 255 C58 254 86 237 101 214Z"/>
+        </g>
+        <g class="lotus-right" filter="url(#softShadow)">
+          <path d="M150 42 C199 50 232 91 232 145 C232 197 199 234 150 258 C178 221 189 188 189 150 C189 111 178 78 150 42Z"/>
+          <path class="petal" d="M212 101 C245 91 268 67 273 43 C242 43 215 61 201 84Z"/>
+          <path class="petal" d="M209 199 C241 209 266 230 275 255 C242 254 214 237 199 214Z"/>
+        </g>
+        <circle class="lotus-dot left-dot" cx="120" cy="150" r="9"/>
+        <circle class="lotus-dot right-dot" cx="180" cy="150" r="9"/>
+      </svg>
+      <span class="gate-invite" data-fa="دعوت هستید" data-en="You are invited">دعوت هستید</span>
     </button>
-
-    <div class="gate-hint" data-fa="دعوت هستید" data-en="You are invited">دعوت هستید</div>
+    <div class="gate-note" data-fa="برای ورود لمس کنید" data-en="Tap to enter">برای ورود لمس کنید</div>
   </div>
 </section>
 
 <header class="topbar">
-  <button id="langToggle" class="lang-toggle" type="button" aria-label="Change language">
-    <span id="langFa">فارسی</span>
-    <span class="slash">/</span>
-    <span id="langEn">English</span>
+  <button id="languageToggle" class="language-toggle" type="button" aria-label="Change language">
+    <span id="languageLabel">فارسی</span>
   </button>
 </header>
 
 <main id="page">
+  <section class="hero reveal">
+    <div class="hero-image"><img src="photo-3.jpg" alt="Saeed & Niloufar"></div>
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+      <img class="hero-logo" src="logo.png" alt="S & N">
+      <div class="eyebrow light" data-fa="قصه‌ی ما • فصل اول" data-en="OUR STORY • CHAPTER ONE">قصه‌ی ما • فصل اول</div>
+      <h2 data-fa="سعید <span>&</span> نیلوفر" data-en="Saeed <span>&</span> Niloufar">سعید <span>&</span> نیلوفر</h2>
+      <p data-fa="با عشق، آغاز این فصل را با شما جشن می‌گیریم." data-en="With love, we invite you to celebrate the beginning of this chapter with us.">با عشق، آغاز این فصل را با شما جشن می‌گیریم.</p>
+    </div>
+  </section>
 
-<section class="hero reveal">
-  <div class="hero-bg"></div><div class="shade"></div>
-  <div class="hero-text">
-    <img class="hero-logo" src="logo.png" alt="Saeed & Niloufar">
-    <div class="mono">S <span>&</span> N</div>
-    <div class="eyebrow" data-fa="قصه‌ی ما • فصل اول" data-en="OUR STORY • CHAPTER ONE">قصه‌ی ما • فصل اول</div>
-    <h1 data-fa="سعید <span>&</span> نیلوفر" data-en="Saeed <span>&</span> Niloufar">سعید <span>&</span> نیلوفر</h1>
-    <p data-fa="با عشق، آغاز این فصل را با شما جشن می‌گیریم." data-en="With love, we invite you to celebrate the beginning of this chapter with us.">با عشق، آغاز این فصل را با شما جشن می‌گیریم.</p>
-  </div>
-</section>
+  <section class="section intro reveal">
+    <div class="eyebrow" data-fa="یک آغاز زیبا" data-en="A BEAUTIFUL BEGINNING">یک آغاز زیبا</div>
+    <h2 data-fa="بعضی لحظه‌ها را<br>دوست داریم با شما قسمت کنیم." data-en="Some moments<br>are meant to be shared with you.">بعضی لحظه‌ها را<br>دوست داریم با شما قسمت کنیم.</h2>
+    <p data-fa="حضور شما در این شب، برای ما فقط یک مهمان بودن نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم به یادش بیاوریم." data-en="Having you with us is more than being a guest; you are part of a memory we hope to carry with us for years to come.">حضور شما در این شب، برای ما فقط یک مهمان بودن نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم به یادش بیاوریم.</p>
+  </section>
 
-<section id="invite" class="section intro reveal">
-  <div class="star">✦</div>
-  <div class="eyebrow" data-fa="یک آغاز زیبا" data-en="A BEAUTIFUL BEGINNING">یک آغاز زیبا</div>
-  <h2 data-fa="بعضی لحظه‌ها را<br>دوست داریم با شما قسمت کنیم." data-en="Some moments<br>are meant to be shared with you.">بعضی لحظه‌ها را<br>دوست داریم با شما قسمت کنیم.</h2>
-  <p data-fa="حضور شما در این شب، برای ما فقط یک مهمان بودن نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم به یادش بیاوریم."
-     data-en="Having you with us is more than being a guest; you are part of a memory we hope to carry with us for years to come.">حضور شما در این شب، برای ما فقط یک مهمان بودن نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم به یادش بیاوریم.</p>
-</section>
+  <section class="full-photo reveal"><img src="photo-1.jpg" alt=""></section>
 
-<section class="photo reveal"><img src="photo-2.jpg" alt="Saeed & Niloufar"></section>
+  <section class="section center reveal">
+    <div class="eyebrow" data-fa="تاریخ جشن" data-en="SAVE THE DATE">تاریخ جشن</div>
+    <h2 data-fa="جشن ما" data-en="Our Celebration">جشن ما</h2>
 
-<section class="section center reveal">
-  <div class="eyebrow" data-fa="تاریخ جشن" data-en="SAVE THE DATE">تاریخ جشن</div>
-  <h2 data-fa="جشن ما" data-en="Our Celebration">جشن ما</h2>
+    <div class="date-box date-fa">
+      <div><small>روز</small><strong>۱۰</strong></div>
+      <div><small>ماه</small><strong>شهریور</strong><span>۱۴۰۵</span></div>
+      <div><small>ساعت</small><strong>۱۹:۰۰</strong><span>تا پاسی از شب</span></div>
+    </div>
 
-  <div class="date date-fa">
-    <div><small>روز</small><b>۱۰</b></div>
-    <div><small>ماه</small><b>شهریور</b><span>۱۴۰۵</span></div>
-    <div><small>ساعت</small><b>۱۹:۰۰</b><span>تا پاسی از شب</span></div>
-  </div>
+    <div class="date-box date-en hidden">
+      <div><small>DAY</small><strong>1</strong></div>
+      <div><small>MONTH</small><strong>September</strong></div>
+      <div><small>YEAR</small><strong>2026</strong></div>
+    </div>
+  </section>
 
-  <div class="date date-en hidden">
-    <div><small>DAY</small><b>1</b></div>
-    <div><small>MONTH</small><b>September</b></div>
-    <div><small>YEAR</small><b>2026</b></div>
-  </div>
-</section>
+  <section class="section venue reveal">
+    <div class="venue-copy">
+      <div class="eyebrow" data-fa="محل برگزاری" data-en="THE VENUE">محل برگزاری</div>
+      <h2 data-fa="باغ اشکان" data-en="Ashkan Garden">باغ اشکان</h2>
+      <p class="fa-only">شیراز - ابتدای جاده قلات<br>کوچه ۲ اقاقیا<br>باغ اشکان</p>
+      <p class="en-only hidden">Shiraz - Beginning of Qalat Road<br>Alley 2, Aghaghia<br>Ashkan Garden</p>
+      <a class="map-button" href="https://goo.gl/maps/8CHoFgn1onBiN2kY7?g_st=ac" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+        <span data-fa="مسیریابی در Google Maps" data-en="Open in Google Maps">مسیریابی در Google Maps</span>
+      </a>
+    </div>
+    <div class="venue-image"><img src="photo-2.jpg" alt="Ashkan Garden"></div>
+  </section>
 
-<section class="section venue reveal">
-  <div>
-    <div class="eyebrow" data-fa="محل برگزاری" data-en="THE VENUE">محل برگزاری</div>
-    <h2 data-fa="باغ اشکان" data-en="Ashkan Garden">باغ اشکان</h2>
-    <p class="venue-fa">اقاقیا<br>شیراز، ابتدای جاده قلات<br>کوچه ۲</p>
-    <p class="venue-en hidden">Aghaghia<br>Shiraz, beginning of Qalat Road<br>Alley 2</p>
+  <section class="section story reveal">
+    <div class="eyebrow" data-fa="مسیر ما" data-en="OUR JOURNEY">مسیر ما</div>
+    <h2 data-fa="و حالا،<br>این فصل را با هم شروع می‌کنیم." data-en="And now,<br>we begin this chapter together.">و حالا،<br>این فصل را با هم شروع می‌کنیم.</h2>
+    <div class="story-lines">
+      <article><b>01</b><div><h3 data-fa="ما" data-en="Us">ما</h3><p data-fa="دو مسیر، که انتخاب کردند کنار هم ادامه پیدا کنند." data-en="Two paths that chose to continue side by side.">دو مسیر، که انتخاب کردند کنار هم ادامه پیدا کنند.</p></div></article>
+      <article><b>02</b><div><h3 data-fa="زندگی مشترک" data-en="A life together">زندگی مشترک</h3><p data-fa="شروعی که برای ما از یک جشن مهم‌تر است." data-en="A beginning that means more to us than a celebration.">شروعی که برای ما از یک جشن مهم‌تر است.</p></div></article>
+      <article><b>03</b><div><h3 data-fa="این شب" data-en="This night">این شب</h3><p data-fa="می‌خواهیم شادی‌مان را با عزیزترین آدم‌های زندگی‌مان قسمت کنیم." data-en="We want to share our happiness with the people dearest to us.">می‌خواهیم شادی‌مان را با عزیزترین آدم‌های زندگی‌مان قسمت کنیم.</p></div></article>
+    </div>
+  </section>
 
-    <a class="outline map-link" target="_blank" rel="noopener"
-       href="https://goo.gl/maps/8CHoFgn1onBiN2kY7?g_st=ac">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
-      <span data-fa="مسیریابی در Google Maps" data-en="Open in Google Maps">مسیریابی در Google Maps</span> ↗
-    </a>
-  </div>
-  <img src="photo-3.jpg" alt="">
-</section>
+  <section class="section gallery-section reveal">
+    <div class="eyebrow" data-fa="چند لحظه" data-en="A FEW MOMENTS">چند لحظه</div>
+    <h2 data-fa="از ما، برای شما" data-en="A few moments, for you">از ما، برای شما</h2>
+    <div class="gallery">
+      <img src="photo-4.jpg" alt="">
+      <img src="photo-5.jpg" alt="">
+      <img src="photo-1.jpg" alt="">
+    </div>
+  </section>
 
-<section class="section story reveal">
-  <div class="eyebrow" data-fa="مسیر ما" data-en="OUR JOURNEY">مسیر ما</div>
-  <h2 data-fa="و حالا،<br>این فصل را با هم شروع می‌کنیم." data-en="And now,<br>we begin this chapter together.">و حالا،<br>این فصل را با هم شروع می‌کنیم.</h2>
-  <div class="line">
-    <article><b>01</b><div><h3 data-fa="ما" data-en="Us">ما</h3><p data-fa="دو مسیر، که انتخاب کردند کنار هم ادامه پیدا کنند." data-en="Two paths that chose to continue side by side.">دو مسیر، که انتخاب کردند کنار هم ادامه پیدا کنند.</p></div></article>
-    <article><b>02</b><div><h3 data-fa="زندگی مشترک" data-en="A life together">زندگی مشترک</h3><p data-fa="شروعی که برای ما از یک جشن مهم‌تر است." data-en="A beginning that means more to us than a celebration.">شروعی که برای ما از یک جشن مهم‌تر است.</p></div></article>
-    <article><b>03</b><div><h3 data-fa="این شب" data-en="This night">این شب</h3><p data-fa="می‌خواهیم شادی‌مان را با عزیزترین آدم‌های زندگی‌مان قسمت کنیم." data-en="We want to share our happiness with the people dearest to us.">می‌خواهیم شادی‌مان را با عزیزترین آدم‌های زندگی‌مان قسمت کنیم.</p></div></article>
-  </div>
-</section>
+  <section class="section rsvp reveal">
+    <div class="eyebrow" data-fa="حضور شما" data-en="RSVP">حضور شما</div>
+    <h2 data-fa="آیا در جشن ما<br>همراه‌مان هستید؟" data-en="Will you join us<br>for our celebration?">آیا در جشن ما<br>همراه‌مان هستید؟</h2>
+    <p data-fa="لطفاً حضور خود را به ما اطلاع دهید." data-en="Please let us know whether you will be joining us.">لطفاً حضور خود را به ما اطلاع دهید.</p>
+    <form id="rsvpForm">
+      <label><input type="radio" name="attendance" value="yes"><span data-fa="بله، با افتخار می‌آیم" data-en="Yes, with pleasure">بله، با افتخار می‌آیم</span></label>
+      <label><input type="radio" name="attendance" value="no"><span data-fa="متأسفانه نمی‌توانم بیایم" data-en="Unfortunately, I can't make it">متأسفانه نمی‌توانم بیایم</span></label>
+      <label><input type="radio" name="attendance" value="maybe"><span data-fa="هنوز مطمئن نیستم" data-en="I'm not sure yet">هنوز مطمئن نیستم</span></label>
+      <input id="guestName" type="text" autocomplete="name" placeholder="نام شما" data-placeholder-fa="نام شما" data-placeholder-en="Your name">
+      <button class="rsvp-submit" type="submit" data-fa="ثبت پاسخ" data-en="Submit RSVP">ثبت پاسخ</button>
+      <p id="rsvpMessage" aria-live="polite"></p>
+    </form>
+  </section>
 
-<section class="section center reveal">
-  <div class="eyebrow" data-fa="چند لحظه" data-en="A FEW MOMENTS">چند لحظه</div>
-  <h2 data-fa="از ما، برای شما" data-en="A few moments, for you">از ما، برای شما</h2>
-  <div class="gallery">
-    <img src="photo-1.jpg" alt="">
-    <img src="photo-4.jpg" alt="">
-    <img src="photo-5.jpg" alt="">
-  </div>
-</section>
+  <section class="countdown reveal">
+    <div class="eyebrow" data-fa="تا جشن ما" data-en="UNTIL WE CELEBRATE">تا جشن ما</div>
+    <div class="timer">
+      <div><strong id="days">00</strong><span data-fa="روز" data-en="DAYS">روز</span></div>
+      <div><strong id="hours">00</strong><span data-fa="ساعت" data-en="HOURS">ساعت</span></div>
+      <div><strong id="minutes">00</strong><span data-fa="دقیقه" data-en="MINUTES">دقیقه</span></div>
+      <div><strong id="seconds">00</strong><span data-fa="ثانیه" data-en="SECONDS">ثانیه</span></div>
+    </div>
+    <div class="count-note" data-fa="۱۰ شهریور ۱۴۰۵ • ساعت ۱۹:۰۰" data-en="10 Shahrivar 1405 • 19:00">۱۰ شهریور ۱۴۰۵ • ساعت ۱۹:۰۰</div>
+  </section>
 
-<!-- RSVP: no option is selected by default. -->
-<section class="section rsvp reveal">
-  <div class="eyebrow" data-fa="حضور شما" data-en="RSVP">حضور شما</div>
-  <h2 data-fa="آیا در جشن ما<br>همراه‌مان هستید؟" data-en="Will you join us<br>for our celebration?">آیا در جشن ما<br>همراه‌مان هستید؟</h2>
-  <p data-fa="لطفاً حضور خود را به ما اطلاع دهید." data-en="Please let us know whether you will be joining us.">لطفاً حضور خود را به ما اطلاع دهید.</p>
-
-  <form id="rsvpForm">
-    <label><input type="radio" name="attendance" value="yes"><span data-fa="بله، با افتخار" data-en="Yes, with pleasure">بله، با افتخار</span></label>
-    <label><input type="radio" name="attendance" value="no"><span data-fa="متأسفانه نمی‌توانم" data-en="Unfortunately, I can't">متأسفانه نمی‌توانم</span></label>
-    <label><input type="radio" name="attendance" value="maybe"><span data-fa="هنوز مطمئن نیستم" data-en="I'm not sure yet">هنوز مطمئن نیستم</span></label>
-    <input id="guestName" type="text" autocomplete="name" data-placeholder-fa="نام شما" data-placeholder-en="Your name" placeholder="نام شما">
-    <button type="submit" class="rsvp-submit" data-fa="ثبت پاسخ" data-en="Submit RSVP">ثبت پاسخ</button>
-    <p id="rsvpMessage" class="rsvp-message" aria-live="polite"></p>
-  </form>
-</section>
-
-<section class="count center reveal">
-  <div class="eyebrow" data-fa="تا جشن ما" data-en="UNTIL WE CELEBRATE">تا جشن ما</div>
-  <div class="timer" aria-label="Countdown">
-    <div><b id="d">--</b><span data-fa="روز" data-en="DAYS">روز</span></div>
-    <div><b id="h">--</b><span data-fa="ساعت" data-en="HOURS">ساعت</span></div>
-    <div><b id="m">--</b><span data-fa="دقیقه" data-en="MINUTES">دقیقه</span></div>
-    <div><b id="s">--</b><span data-fa="ثانیه" data-en="SECONDS">ثانیه</span></div>
-  </div>
-  <small class="count-note" data-fa="۱۰ شهریور ۱۴۰۵ • ساعت ۱۹:۰۰" data-en="10 Shahrivar 1405 • 19:00">۱۰ شهریور ۱۴۰۵ • ساعت ۱۹:۰۰</small>
-</section>
-
-<section class="section closing center reveal">
-  <img class="closing-logo" src="logo.png" alt="Saeed & Niloufar">
-  <div class="mono dark">S & N</div>
-  <div class="eyebrow" data-fa="با عشق" data-en="WITH LOVE">با عشق</div>
-  <h2 data-fa="منتظر دیدار شما هستیم." data-en="We can't wait to see you.">منتظر دیدار شما هستیم.</h2>
-  <p>سعید رنجبر<br>&<br>نیلوفر معصومی</p>
-  <small data-fa="۱۰ شهریور ۱۴۰۵ • شیراز" data-en="10 Shahrivar 1405 • Shiraz">۱۰ شهریور ۱۴۰۵ • شیراز</small>
-</section>
-
+  <section class="closing section center reveal">
+    <img class="closing-logo" src="logo.png" alt="S & N">
+    <div class="eyebrow" data-fa="با عشق" data-en="WITH LOVE">با عشق</div>
+    <h2 data-fa="منتظر دیدار شما هستیم." data-en="We can't wait to see you.">منتظر دیدار شما هستیم.</h2>
+    <p data-fa="سعید رنجبر<br>&<br>نیلوفر معصومی" data-en="Saeed Ranjbar<br>&<br>Niloufar Masoumi">سعید رنجبر<br>&<br>نیلوفر معصومی</p>
+    <small data-fa="۱۰ شهریور ۱۴۰۵ • شیراز" data-en="1 September 2026 • Shiraz">۱۰ شهریور ۱۴۰۵ • شیراز</small>
+  </section>
 </main>
 
-<audio id="player" preload="auto"></audio>
+<audio id="music" preload="auto"></audio>
 <script src="script.js"></script>
 </body>
 </html>

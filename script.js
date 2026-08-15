@@ -1,138 +1,155 @@
-const state = {
-  lang: 'fa',
-  entered: false
-};
+(() => {
+  'use strict';
 
-// Wedding date: 10 Shahrivar 1405 = 31 August 2026, 19:00 Iran local time.
-// The countdown is intentionally based on this single Persian-calendar event date.
-// The browser receives the equivalent Gregorian timestamp only for calculation.
-const target = new Date('2026-08-31T19:00:00+03:30').getTime();
+  const state = { lang: 'fa', entered: false };
 
-const gate = document.getElementById('gate');
-const lotusGate = document.getElementById('lotusGate');
-const langToggle = document.getElementById('langToggle');
-const player = document.getElementById('player');
+  // Countdown is based on the requested Persian event date:
+  // 10 Shahrivar 1405, 19:00 Iran time.
+  // Equivalent Gregorian instant: 31 Aug 2026, 19:00 at UTC+03:30.
+  const WEDDING_TARGET = new Date('2026-08-31T19:00:00+03:30').getTime();
 
-const tracks = {
-  fa: 'Pol.mp3',
-  en: 'Ordinary.mp3'
-};
+  const gate = document.getElementById('gate');
+  const openButton = document.getElementById('openInvitation');
+  const languageToggle = document.getElementById('languageToggle');
+  const languageLabel = document.getElementById('languageLabel');
+  const music = document.getElementById('music');
+  const form = document.getElementById('rsvpForm');
 
-function tick(){
-  let x = Math.max(0, target - Date.now());
-  const d = Math.floor(x / 86400000);
-  x %= 86400000;
-  const h = Math.floor(x / 3600000);
-  x %= 3600000;
-  const m = Math.floor(x / 60000);
-  const s = Math.floor(x / 1000) % 60;
+  const tracks = {
+    fa: 'Pol.mp3',
+    en: 'Ordinary.mp3'
+  };
 
-  for (const [id,v] of [['d',d],['h',h],['m',m],['s',s]]) {
-    document.getElementById(id).textContent = String(v).padStart(2,'0');
-  }
-}
+  function applyLanguage(lang, reset = false) {
+    state.lang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+    languageLabel.textContent = lang === 'fa' ? 'English' : 'فارسی';
 
-function setLanguage(lang, reset = true){
-  state.lang = lang;
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-
-  document.querySelectorAll('[data-fa]').forEach(el => {
-    const value = el.getAttribute(`data-${lang}`);
-    if (value !== null) el.innerHTML = value;
-  });
-
-  document.querySelectorAll('[data-placeholder-fa]').forEach(el => {
-    el.placeholder = el.getAttribute(`data-placeholder-${lang}`);
-  });
-
-  document.querySelector('.date-fa').classList.toggle('hidden', lang !== 'fa');
-  document.querySelector('.date-en').classList.toggle('hidden', lang !== 'en');
-  document.querySelector('.venue-fa').classList.toggle('hidden', lang !== 'fa');
-  document.querySelector('.venue-en').classList.toggle('hidden', lang !== 'en');
-
-  document.getElementById('langFa').style.opacity = lang === 'fa' ? '1' : '.45';
-  document.getElementById('langEn').style.opacity = lang === 'en' ? '1' : '.45';
-
-  if (reset) resetInvitation();
-}
-
-function resetInvitation(){
-  window.scrollTo({top:0, behavior:'instant'});
-  state.entered = false;
-  document.body.classList.add('locked');
-  gate.classList.remove('open','leaving');
-  // Keep the current language, but load the correct track for the next entrance.
-  player.pause();
-  player.currentTime = 0;
-  player.src = tracks[state.lang];
-  player.load();
-}
-
-async function enterInvitation(){
-  if (state.entered) return;
-  state.entered = true;
-
-  // This is the reliable music-start gesture on mobile browsers.
-  player.src = tracks[state.lang];
-  player.loop = true;
-  player.volume = 0.78;
-
-  try { await player.play(); }
-  catch(e) {
-    // Some browsers can still block playback; the invitation itself opens normally.
-    // A second tap/gesture elsewhere will retry it.
-    const retry = () => {
-      player.play().catch(()=>{});
-      document.removeEventListener('touchstart', retry);
-      document.removeEventListener('click', retry);
-    };
-    document.addEventListener('touchstart', retry, {once:true, passive:true});
-    document.addEventListener('click', retry, {once:true});
-  }
-
-  gate.classList.add('leaving');
-  setTimeout(() => {
-    gate.classList.add('open');
-    document.body.classList.remove('locked');
-  }, 900);
-}
-
-function observeReveals(){
-  const items = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
+    document.querySelectorAll('[data-fa][data-en]').forEach((el) => {
+      const text = el.getAttribute(`data-${lang}`);
+      if (text !== null) el.innerHTML = text;
     });
-  }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
-  items.forEach(el => io.observe(el));
-}
 
-lotusGate.addEventListener('click', enterInvitation);
+    document.querySelectorAll('[data-placeholder-fa][data-placeholder-en]').forEach((el) => {
+      el.placeholder = el.getAttribute(`data-placeholder-${lang}`) || '';
+    });
 
-langToggle.addEventListener('click', () => {
-  setLanguage(state.lang === 'fa' ? 'en' : 'fa', true);
-});
+    document.querySelector('.date-fa').classList.toggle('hidden', lang !== 'fa');
+    document.querySelector('.date-en').classList.toggle('hidden', lang !== 'en');
+    document.querySelector('.fa-only').classList.toggle('hidden', lang !== 'fa');
+    document.querySelector('.en-only').classList.toggle('hidden', lang !== 'en');
 
-document.getElementById('rsvpForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const selected = document.querySelector('input[name="attendance"]:checked');
-  const message = document.getElementById('rsvpMessage');
-
-  if (!selected) {
-    message.textContent = state.lang === 'fa'
-      ? 'لطفاً یکی از گزینه‌ها را انتخاب کنید.'
-      : 'Please choose one of the options.';
-    return;
+    // Changing language intentionally restarts the invitation gate.
+    if (reset) resetInvitation();
   }
 
-  message.textContent = state.lang === 'fa'
-    ? 'پاسخ شما ثبت شد؛ از اینکه به ما خبر دادید ممنونیم. ♡'
-    : 'Thank you — your RSVP has been noted. ♡';
-});
+  function resetReveals() {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.remove('is-visible'));
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => observer && document.querySelectorAll('.reveal').forEach(el => observer.observe(el)));
+    });
+  }
 
-tick();
-setInterval(tick, 1000);
-setLanguage('fa', false);
-observeReveals();
-document.body.classList.add('locked');
+  function resetInvitation() {
+    state.entered = false;
+    document.body.classList.add('locked');
+    gate.classList.remove('is-opening', 'is-open');
+    window.scrollTo(0, 0);
+
+    music.pause();
+    music.currentTime = 0;
+    music.src = tracks[state.lang];
+    music.load();
+    resetReveals();
+  }
+
+  function startMusic() {
+    music.src = tracks[state.lang];
+    music.loop = true;
+    music.volume = 0.78;
+    music.load();
+    // Important: play is called directly inside the user's pointer gesture.
+    const promise = music.play();
+    if (promise && typeof promise.catch === 'function') promise.catch(() => {});
+  }
+
+  function enterInvitation(event) {
+    if (event) event.preventDefault();
+    if (state.entered) return;
+    state.entered = true;
+
+    startMusic();
+
+    gate.classList.add('is-opening');
+    window.setTimeout(() => {
+      gate.classList.add('is-open');
+      document.body.classList.remove('locked');
+      window.scrollTo(0, 0);
+    }, 1150);
+  }
+
+  function updateCountdown() {
+    let remaining = Math.max(0, WEDDING_TARGET - Date.now());
+    const days = Math.floor(remaining / 86400000);
+    remaining %= 86400000;
+    const hours = Math.floor(remaining / 3600000);
+    remaining %= 3600000;
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor(remaining / 1000) % 60;
+
+    document.getElementById('days').textContent = String(days).padStart(2, '0');
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  }
+
+  function submitRSVP(event) {
+    event.preventDefault();
+    const selected = form.querySelector('input[name="attendance"]:checked');
+    const message = document.getElementById('rsvpMessage');
+
+    if (!selected) {
+      message.textContent = state.lang === 'fa' ? 'لطفاً یکی از گزینه‌ها را انتخاب کنید.' : 'Please choose one of the options.';
+      return;
+    }
+
+    message.textContent = state.lang === 'fa'
+      ? 'پاسخ شما ثبت شد؛ ممنون که به ما خبر دادید. ♡'
+      : 'Thank you — your RSVP has been noted. ♡';
+  }
+
+  let observer = null;
+  function initRevealObserver() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // pointerup is reliable on mobile and is a genuine user gesture for audio playback.
+  openButton.addEventListener('pointerup', enterInvitation, { passive: false });
+  openButton.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') enterInvitation(event);
+  });
+
+  languageToggle.addEventListener('click', () => {
+    applyLanguage(state.lang === 'fa' ? 'en' : 'fa', true);
+  });
+
+  form.addEventListener('submit', submitRSVP);
+
+  applyLanguage('fa', false);
+  updateCountdown();
+  window.setInterval(updateCountdown, 1000);
+  initRevealObserver();
+})();
