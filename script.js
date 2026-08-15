@@ -1,134 +1,138 @@
-/* S&N Wedding Invitation — interaction, music & Jalali countdown */
-
-let lang = "fa"; // Persian is the default language
-let currentTrack = "";
-let interactionUnlocked = false;
-
-const tracks = {
-  en: "Ordinary.mp3",
-  fa: "Pol.mp3"
+const state = {
+  lang: 'fa',
+  entered: false
 };
 
-const player = document.getElementById("player");
-const gate = document.getElementById("gate");
-const enterButton = document.getElementById("enterInvitation");
+// Wedding date: 10 Shahrivar 1405 = 31 August 2026, 19:00 Iran local time.
+// The countdown is intentionally based on this single Persian-calendar event date.
+// The browser receives the equivalent Gregorian timestamp only for calculation.
+const target = new Date('2026-08-31T19:00:00+03:30').getTime();
 
-/* The countdown is defined by the Persian event date:
-   10 Shahrivar 1405 at 19:00 Tehran time.
-   We resolve that Jalali date with the browser's Persian calendar,
-   rather than hard-coding an English/Gregorian date. */
-function findPersianDateInGregorianYear(jy, jm, jd) {
-  const formatter = new Intl.DateTimeFormat("en-US-u-ca-persian", {
-    timeZone: "Asia/Tehran",
-    year: "numeric", month: "numeric", day: "numeric"
-  });
+const gate = document.getElementById('gate');
+const lotusGate = document.getElementById('lotusGate');
+const langToggle = document.getElementById('langToggle');
+const player = document.getElementById('player');
 
-  const start = Date.UTC(2026, 0, 1, 12, 0, 0);
-  for (let i = 0; i < 400; i++) {
-    const date = new Date(start + i * 86400000);
-    const parts = formatter.formatToParts(date);
-    const year = Number(parts.find(p => p.type === "year").value);
-    const month = Number(parts.find(p => p.type === "month").value);
-    const day = Number(parts.find(p => p.type === "day").value);
-    if (year === jy && month === jm && day === jd) {
-      return `${date.getUTCFullYear()}-${String(date.getUTCMonth()+1).padStart(2,"0")}-${String(date.getUTCDate()).padStart(2,"0")}`;
-    }
-  }
-  throw new Error("Persian event date could not be resolved.");
-}
+const tracks = {
+  fa: 'Pol.mp3',
+  en: 'Ordinary.mp3'
+};
 
-const eventGregorianDate = findPersianDateInGregorianYear(1405, 6, 10);
-const target = new Date(`${eventGregorianDate}T19:00:00+03:30`).getTime();
-
-function playCurrentTrack() {
-  const p = player.play();
-  if (p && p.catch) p.catch(() => {});
-}
-
-function setTrack(forcePlay = false) {
-  const next = tracks[lang];
-  if (currentTrack !== next) {
-    currentTrack = next;
-    player.src = next;
-    player.load();
-  }
-  if (forcePlay) playCurrentTrack();
-}
-
-function apply() {
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
-
-  document.querySelectorAll("[data-fa]").forEach(el => {
-    el.innerHTML = el.dataset[lang];
-  });
-
-  document.getElementById("lang").textContent = lang === "fa" ? "English" : "فارسی";
-  document.title = lang === "fa"
-    ? "سعید و نیلوفر | ۱۰ شهریور ۱۴۰۵"
-    : "Saeed & Niloufar | 1 September 2026";
-
-  setTrack(interactionUnlocked);
-}
-
-function switchLanguage() {
-  lang = lang === "fa" ? "en" : "fa";
-  apply();
-  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-}
-
-document.getElementById("lang").addEventListener("click", e => {
-  e.preventDefault();
-  e.stopPropagation();
-  interactionUnlocked = true;
-  switchLanguage();
-  playCurrentTrack();
-});
-
-function unlockAndEnter() {
-  if (interactionUnlocked) return;
-  interactionUnlocked = true;
-  setTrack(true);
-  playCurrentTrack();
-
-  document.body.classList.add("invitation-open");
-  setTimeout(() => gate?.remove(), 1050);
-}
-
-enterButton?.addEventListener("click", unlockAndEnter);
-
-/* Best effort autoplay. Mobile browsers may still block audible autoplay;
-   the invitation button is the guaranteed user gesture fallback. */
-window.addEventListener("DOMContentLoaded", () => {
-  apply();
-  setTrack(false);
-  player.play().catch(() => {});
-});
-
-/* Scroll-reveal animation */
-const revealItems = document.querySelectorAll(".reveal");
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.14 });
-revealItems.forEach(el => observer.observe(el));
-
-/* Countdown — calculated from the Jalali target above, not a hard-coded English date. */
-function tick() {
+function tick(){
   let x = Math.max(0, target - Date.now());
-  const d = Math.floor(x / 86400000); x %= 86400000;
-  const h = Math.floor(x / 3600000); x %= 3600000;
+  const d = Math.floor(x / 86400000);
+  x %= 86400000;
+  const h = Math.floor(x / 3600000);
+  x %= 3600000;
   const m = Math.floor(x / 60000);
   const s = Math.floor(x / 1000) % 60;
 
-  for (const [id, value] of [["d", d], ["h", h], ["m", m], ["s", s]]) {
-    document.getElementById(id).textContent = String(value).padStart(2, "0");
+  for (const [id,v] of [['d',d],['h',h],['m',m],['s',s]]) {
+    document.getElementById(id).textContent = String(v).padStart(2,'0');
   }
 }
 
+function setLanguage(lang, reset = true){
+  state.lang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+  document.querySelectorAll('[data-fa]').forEach(el => {
+    const value = el.getAttribute(`data-${lang}`);
+    if (value !== null) el.innerHTML = value;
+  });
+
+  document.querySelectorAll('[data-placeholder-fa]').forEach(el => {
+    el.placeholder = el.getAttribute(`data-placeholder-${lang}`);
+  });
+
+  document.querySelector('.date-fa').classList.toggle('hidden', lang !== 'fa');
+  document.querySelector('.date-en').classList.toggle('hidden', lang !== 'en');
+  document.querySelector('.venue-fa').classList.toggle('hidden', lang !== 'fa');
+  document.querySelector('.venue-en').classList.toggle('hidden', lang !== 'en');
+
+  document.getElementById('langFa').style.opacity = lang === 'fa' ? '1' : '.45';
+  document.getElementById('langEn').style.opacity = lang === 'en' ? '1' : '.45';
+
+  if (reset) resetInvitation();
+}
+
+function resetInvitation(){
+  window.scrollTo({top:0, behavior:'instant'});
+  state.entered = false;
+  document.body.classList.add('locked');
+  gate.classList.remove('open','leaving');
+  // Keep the current language, but load the correct track for the next entrance.
+  player.pause();
+  player.currentTime = 0;
+  player.src = tracks[state.lang];
+  player.load();
+}
+
+async function enterInvitation(){
+  if (state.entered) return;
+  state.entered = true;
+
+  // This is the reliable music-start gesture on mobile browsers.
+  player.src = tracks[state.lang];
+  player.loop = true;
+  player.volume = 0.78;
+
+  try { await player.play(); }
+  catch(e) {
+    // Some browsers can still block playback; the invitation itself opens normally.
+    // A second tap/gesture elsewhere will retry it.
+    const retry = () => {
+      player.play().catch(()=>{});
+      document.removeEventListener('touchstart', retry);
+      document.removeEventListener('click', retry);
+    };
+    document.addEventListener('touchstart', retry, {once:true, passive:true});
+    document.addEventListener('click', retry, {once:true});
+  }
+
+  gate.classList.add('leaving');
+  setTimeout(() => {
+    gate.classList.add('open');
+    document.body.classList.remove('locked');
+  }, 900);
+}
+
+function observeReveals(){
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  items.forEach(el => io.observe(el));
+}
+
+lotusGate.addEventListener('click', enterInvitation);
+
+langToggle.addEventListener('click', () => {
+  setLanguage(state.lang === 'fa' ? 'en' : 'fa', true);
+});
+
+document.getElementById('rsvpForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const selected = document.querySelector('input[name="attendance"]:checked');
+  const message = document.getElementById('rsvpMessage');
+
+  if (!selected) {
+    message.textContent = state.lang === 'fa'
+      ? 'لطفاً یکی از گزینه‌ها را انتخاب کنید.'
+      : 'Please choose one of the options.';
+    return;
+  }
+
+  message.textContent = state.lang === 'fa'
+    ? 'پاسخ شما ثبت شد؛ از اینکه به ما خبر دادید ممنونیم. ♡'
+    : 'Thank you — your RSVP has been noted. ♡';
+});
+
 tick();
 setInterval(tick, 1000);
+setLanguage('fa', false);
+observeReveals();
+document.body.classList.add('locked');
