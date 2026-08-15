@@ -87,7 +87,7 @@
       document.body.classList.remove('gate-open');
       window.scrollTo(0, 0);
       document.querySelector('.hero')?.classList.add('visible');
-    }, 2300);
+    }, 2700);
   }
 
   // Language change deliberately reloads the invitation so the gate appears again.

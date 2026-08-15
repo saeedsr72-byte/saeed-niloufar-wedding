@@ -33,23 +33,28 @@ button,input,select,textarea{font:inherit}
 
 /* V6 botanical assets: no CSS-drawn vines. The creepers are external illustrated SVG artwork. */
 .story-vines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;opacity:1;overflow:hidden}
-.vine-asset{position:absolute;top:0;height:100%;width:min(22vw,250px);overflow:hidden;will-change:clip-path;clip-path:inset(0 0 100% 0)}
-.vine-asset img{display:block;width:100%;height:100%;object-fit:fill;filter:drop-shadow(0 2px 3px rgba(43,31,20,.18))}
+.vine-asset{position:absolute;top:0;height:100%;width:min(12vw,135px);overflow:hidden;will-change:clip-path;clip-path:inset(0 0 100% 0)}
+.vine-asset img{display:block;width:100%;height:100%;object-fit:fill;opacity:.78;filter:drop-shadow(0 1px 2px rgba(43,31,20,.14))}
 .vine-left{left:0}.vine-right{right:0}
 .vine-merge-glow{position:absolute;left:50%;bottom:28px;width:180px;height:110px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(221,190,125,.18),transparent 68%);opacity:0;transition:opacity .8s ease}
 .vine-lotus{position:absolute;left:50%;bottom:0;width:min(210px,34vw);height:auto;transform:translate(-50%,28px) scale(.72);opacity:0;filter:drop-shadow(0 5px 9px rgba(46,34,22,.2));transition:opacity .9s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
 .story-vines.vines-finished .vine-merge-glow{opacity:1}.story-vines.vines-finished .vine-lotus{opacity:1;transform:translate(-50%,0) scale(1)}
 /* Gate: real fingerprint artwork split into two halves, surrounded by a minimal S&N botanical ornament. */
-.fingerprint-half{transform-box:view-box;transform-origin:center;transition:transform 2.25s cubic-bezier(.18,.72,.16,1),opacity 1.9s ease}
-.seal-botanical{transform-origin:center;transition:transform 1.9s cubic-bezier(.18,.72,.16,1),opacity 1.4s ease}
 .opening-emblem{overflow:visible}
-.gate.split .fingerprint-left{transform:translateX(-54vw) rotate(-12deg);opacity:0}
-.gate.split .fingerprint-right{transform:translateX(54vw) rotate(12deg);opacity:0}
+/* Real fingerprint artwork: HTML images inside SVG foreignObject so the split is reliable on mobile browsers. */
+.fingerprint-fo{overflow:visible;pointer-events:none;transition:transform 2.45s cubic-bezier(.18,.72,.16,1),opacity 1.95s ease;transform-box:fill-box;transform-origin:50% 50%;will-change:transform,opacity}
+.fingerprint-piece{width:292px;height:292px;overflow:hidden;filter:drop-shadow(0 12px 9px rgba(0,0,0,.45));position:relative}
+.fingerprint-piece img{position:absolute;width:292px;height:292px;max-width:none;display:block;top:0;left:0}
+.fingerprint-left-piece{clip-path:inset(0 146px 0 0)}
+.fingerprint-right-piece{clip-path:inset(0 0 0 146px)}
+.gate.split .fingerprint-left-fo{transform:translateX(-62vw) rotate(-12deg);opacity:0}
+.gate.split .fingerprint-right-fo{transform:translateX(62vw) rotate(12deg);opacity:0}
+.seal-botanical{transform-origin:center;transition:transform 1.95s cubic-bezier(.18,.72,.16,1),opacity 1.4s ease}
 .gate.split .seal-botanical{transform:scale(1.12);opacity:0}
 .gate.split .sparkles{opacity:0;transition:opacity .8s ease}
 @media(max-width:760px){
-  .vine-asset{width:30vw;min-width:92px;max-width:155px}
-  .vine-lotus{width:min(175px,46vw)}
-  .gate.split .fingerprint-left{transform:translateX(-62vw) rotate(-14deg)}
-  .gate.split .fingerprint-right{transform:translateX(62vw) rotate(14deg)}
+  .vine-asset{width:min(14vw,105px);min-width:58px;max-width:105px}
+  .vine-lotus{width:min(140px,34vw)}
+  .gate.split .fingerprint-left-fo{transform:translateX(-70vw) rotate(-12deg)}
+  .gate.split .fingerprint-right-fo{transform:translateX(70vw) rotate(12deg)}
 }

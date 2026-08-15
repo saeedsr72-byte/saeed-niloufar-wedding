@@ -37,12 +37,13 @@
         <circle cx="180" cy="180" r="139" fill="none" stroke="#d9b66d" stroke-width="1.2" opacity=".58"/>
         <circle cx="180" cy="180" r="132" fill="none" stroke="#e8d4a4" stroke-width=".8" stroke-dasharray="2 7" opacity=".48"/>
 
-        <g class="fingerprint-half fingerprint-left" clip-path="url(#leftHalf)" filter="url(#sealShadow)">
-          <image href="fingerprint-seal.png" x="34" y="34" width="292" height="292" preserveAspectRatio="xMidYMid meet"/>
-        </g>
-        <g class="fingerprint-half fingerprint-right" clip-path="url(#rightHalf)" filter="url(#sealShadow)">
-          <image href="fingerprint-seal.png" x="34" y="34" width="292" height="292" preserveAspectRatio="xMidYMid meet"/>
-        </g>
+        <!-- Fingerprint artwork is rendered as two HTML image halves for reliable mobile split animation. -->
+        <foreignObject x="34" y="34" width="292" height="292" class="fingerprint-fo fingerprint-left-fo">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="fingerprint-piece fingerprint-left-piece"><img src="fingerprint-seal.png" alt="" /></div>
+        </foreignObject>
+        <foreignObject x="34" y="34" width="292" height="292" class="fingerprint-fo fingerprint-right-fo">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="fingerprint-piece fingerprint-right-piece"><img src="fingerprint-seal.png" alt="" /></div>
+        </foreignObject>
 
         <g class="seal-botanical" fill="none" stroke="#d8b46a" stroke-linecap="round" stroke-linejoin="round">
           <path stroke-width="2.2" d="M94 103C65 76 52 48 63 25"/>
