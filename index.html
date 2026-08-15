@@ -23,51 +23,68 @@
     <button id="openInvitation" class="ornament-seal" type="button" aria-label="باز کردن دعوت‌نامه">
       <svg viewBox="0 0 360 360" aria-hidden="true">
         <defs>
-          <radialGradient id="goldGlow" cx="50%" cy="45%" r="62%">
-            <stop offset="0" stop-color="#fff7df"/>
-            <stop offset=".32" stop-color="#e7c985"/>
-            <stop offset=".7" stop-color="#9b6d2c"/>
-            <stop offset="1" stop-color="#3d2a16"/>
+          <radialGradient id="goldGlow" cx="50%" cy="45%" r="68%">
+            <stop offset="0" stop-color="#fff8e6"/>
+            <stop offset=".28" stop-color="#f0d38d"/>
+            <stop offset=".58" stop-color="#c08b35"/>
+            <stop offset=".82" stop-color="#6f481e"/>
+            <stop offset="1" stop-color="#21170d"/>
           </radialGradient>
           <linearGradient id="ivory" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#fffaf0"/>
-            <stop offset=".5" stop-color="#e8ddc8"/>
-            <stop offset="1" stop-color="#a9987c"/>
+            <stop offset="0" stop-color="#fff9ea"/>
+            <stop offset=".45" stop-color="#eadfc9"/>
+            <stop offset="1" stop-color="#b39a74"/>
           </linearGradient>
           <linearGradient id="charcoalGold" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#151411"/>
-            <stop offset=".52" stop-color="#62513a"/>
-            <stop offset="1" stop-color="#d5ad63"/>
+            <stop offset="0" stop-color="#171411"/>
+            <stop offset=".45" stop-color="#4a3b28"/>
+            <stop offset=".78" stop-color="#9b6d2c"/>
+            <stop offset="1" stop-color="#e3c47d"/>
+          </linearGradient>
+          <linearGradient id="petalGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff4d2"/>
+            <stop offset=".4" stop-color="#d9b36a"/>
+            <stop offset="1" stop-color="#7a5121"/>
           </linearGradient>
           <filter id="softGlow"><feGaussianBlur stdDeviation="3"/></filter>
+          <filter id="sealGlow"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000" flood-opacity=".45"/></filter>
         </defs>
 
+        <!-- LEFT: ivory half, built as a lotus / botanical ornamental Yin half -->
         <g class="seal-ornament seal-left" filter="url(#shadow)">
-          <path class="half-fill ivory-fill" d="M180 38C111 38 57 91 57 157c0 49 28 86 74 105 27 11 54-3 54-34 0-27-17-45-40-45-19 0-31 12-31 31 0 12 6 21 16 27-18-3-33-19-38-39-8-31 9-62 42-77 23-10 46-8 64 2V38Z"/>
-          <path class="filigree" d="M180 52c-45 18-72 55-72 97 0 27 11 47 30 58M180 70c-26 19-40 43-40 72 0 20 7 34 20 43"/>
-          <path class="petal" d="M87 108c-26-5-42-18-47-39 25 0 43 10 52 30Z"/>
-          <path class="petal" d="M92 90c-8-25-4-45 13-59 13 21 10 42-7 60Z"/>
-          <path class="petal" d="M93 128c-20 7-36 4-49-10 18-12 36-9 51 3Z"/>
-          <path class="leaf" d="M78 73c-23-17-27-34-15-52 22 7 30 24 15 52Z"/>
-          <path class="leaf" d="M106 153c-22 16-43 17-59 2 18-18 38-18 59-2Z"/>
+          <path class="half-fill ivory-fill" d="M180 35C108 35 50 91 50 160c0 48 27 87 70 108 27 13 60-2 60-35 0-28-17-47-42-47-20 0-33 13-33 32 0 12 6 22 17 28-19-4-35-21-40-42-7-32 10-65 45-81 20-9 38-9 53 0V35Z"/>
+          <path class="filigree" d="M174 51C125 69 93 108 93 157c0 27 12 50 35 66M174 69c-31 17-49 45-49 78 0 18 7 34 21 45"/>
+          <path class="orn-petal" d="M78 116C50 111 32 95 28 71c27 1 47 13 58 35Z"/>
+          <path class="orn-petal" d="M86 94C77 65 84 42 104 27c15 25 11 50-8 70Z"/>
+          <path class="orn-petal" d="M91 137C67 145 46 140 31 124c20-16 42-14 61 2Z"/>
+          <path class="orn-leaf" d="M67 82C42 64 36 43 48 24c25 9 34 29 19 58Z"/>
+          <path class="orn-leaf" d="M106 158C79 179 55 180 38 163c21-20 44-21 68-5Z"/>
+          <path class="orn-vein" d="M31 72c20 10 35 22 47 38M104 28c-4 21-10 40-23 60M32 124c21 1 39 6 58 13M48 25c7 16 14 31 19 57M39 163c22-1 41-2 67-5"/>
+          <circle class="orn-jewel" cx="92" cy="154" r="4"/>
         </g>
 
+        <!-- RIGHT: charcoal / gold half, mirrored botanical ornament -->
         <g class="seal-ornament seal-right" filter="url(#shadow)">
-          <path class="half-fill dark-fill" d="M180 38c69 0 123 53 123 119 0 49-28 86-74 105-27 11-54-3-54-34 0-27 17-45 40-45 19 0 31 12 31 31 0 12-6 21-16 27 18-3 33-19 38-39 8-31-9-62-42-77-23-10-46-8-64 2V38Z"/>
-          <path class="filigree dark-stroke" d="M180 52c45 18 72 55 72 97 0 27-11 47-30 58M180 70c26 19 40 43 40 72 0 20-7 34-20 43"/>
-          <path class="petal dark-stroke" d="M273 108c26-5 42-18 47-39-25 0-43 10-52 30Z"/>
-          <path class="petal dark-stroke" d="M268 90c8-25 4-45-13-59-13 21-10 42 7 60Z"/>
-          <path class="petal dark-stroke" d="M267 128c20 7 36 4 49-10-18-12-36-9-51 3Z"/>
-          <path class="leaf dark-stroke" d="M282 73c23-17 27-34 15-52-22 7-30 24-15 52Z"/>
-          <path class="leaf dark-stroke" d="M254 153c22 16 43 17 59 2-18-18-38-18-59-2Z"/>
+          <path class="half-fill dark-fill" d="M180 35c72 0 130 56 130 125 0 48-27 87-70 108-27 13-60-2-60-35 0-28 17-47 42-47 20 0 33 13 33 32 0 12-6 22-17 28 19-4 35-21 40-42 7-32-10-65-45-81-20-9-38-9-53 0V35Z"/>
+          <path class="filigree dark-stroke" d="M186 51c49 18 81 57 81 106 0 27-12 50-35 66M186 69c31 17 49 45 49 78 0 18-7 34-21 45"/>
+          <path class="orn-petal dark-stroke" d="M282 116c28-5 46-21 50-45-27 1-47 13-58 35Z"/>
+          <path class="orn-petal dark-stroke" d="M274 94c9-29 2-52-18-67-15 25-11 50 8 70Z"/>
+          <path class="orn-petal dark-stroke" d="M269 137c24 8 45 3 60-13-20-16-42-14-61 2Z"/>
+          <path class="orn-leaf dark-stroke" d="M293 82c25-18 31-39 19-58-25 9-34 29-19 58Z"/>
+          <path class="orn-leaf dark-stroke" d="M254 158c27 21 51 22 68 5-21-20-44-21-68-5Z"/>
+          <path class="orn-vein dark-stroke" d="M329 72c-20 10-35 22-47 38M256 28c4 21 10 40 23 60M328 124c-21 1-39 6-58 13M312 25c-7 16-14 31-19 57M321 163c-22-1-41-2-67-5"/>
+          <circle class="orn-jewel dark-stroke" cx="268" cy="154" r="4"/>
         </g>
 
         <circle class="seal-halo" cx="180" cy="180" r="151"/>
         <circle class="seal-halo-inner" cx="180" cy="180" r="137"/>
+        <path class="center-lotus" d="M180 147c-13 15-18 28-18 38 0 13 8 24 18 31 10-7 18-18 18-31 0-10-5-23-18-38Z"/>
+        <path class="center-lotus-line" d="M180 157v47M171 179c5 4 8 8 9 14M189 179c-5 4-8 8-9 14"/>
         <circle class="seal-center-ring" cx="180" cy="180" r="34"/>
         <text x="180" y="186" text-anchor="middle" class="seal-monogram">S &amp; N</text>
         <circle class="spark" cx="180" cy="28" r="3"/><circle class="spark" cx="332" cy="180" r="3"/><circle class="spark" cx="180" cy="332" r="3"/><circle class="spark" cx="28" cy="180" r="3"/>
+        <circle class="spark spark-small" cx="74" cy="63" r="2"/><circle class="spark spark-small" cx="286" cy="63" r="2"/><circle class="spark spark-small" cx="74" cy="297" r="2"/><circle class="spark spark-small" cx="286" cy="297" r="2"/>
       </svg>
       <span class="gate-hint" data-fa="دعوت هستید" data-en="YOU ARE INVITED">دعوت هستید</span>
     </button>
@@ -83,27 +100,48 @@
   <main id="site" class="site locked">
     <svg class="story-vines" viewBox="0 0 1000 5200" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="vineS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f7761"/><stop offset="1" stop-color="#4d5a43"/></linearGradient>
-        <linearGradient id="vineN" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f7761"/><stop offset="1" stop-color="#4d5a43"/></linearGradient>
+        <linearGradient id="vineS" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#6f5a47"/><stop offset=".52" stop-color="#5a6247"/><stop offset="1" stop-color="#354532"/>
+        </linearGradient>
+        <linearGradient id="vineN" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#6f5a47"/><stop offset=".52" stop-color="#5a6247"/><stop offset="1" stop-color="#354532"/>
+        </linearGradient>
+        <radialGradient id="vineFlower" cx="50%" cy="45%" r="65%">
+          <stop offset="0" stop-color="#fff4d5"/><stop offset=".4" stop-color="#d6b26c"/><stop offset="1" stop-color="#79501f"/>
+        </radialGradient>
       </defs>
-      <!-- Two woody S / N branches. They draw together as the guest scrolls, then intertwine at the end. -->
+
+      <!-- Organic S and N vines: woody, branching stems rather than fixed leaves. -->
       <g class="vine-art vine-s-art">
-        <path id="vineS" class="vine-path vine-draw" d="M118 170 C92 520 108 820 154 1120 C202 1430 182 1690 236 1980 C292 2280 372 2520 406 2820 C444 3150 414 3490 462 3820 C505 4120 540 4410 500 4700 C486 4825 493 4930 500 5100"/>
-        <path class="vine-highlight vine-draw" d="M118 170 C92 520 108 820 154 1120 C202 1430 182 1690 236 1980 C292 2280 372 2520 406 2820 C444 3150 414 3490 462 3820 C505 4120 540 4410 500 4700 C486 4825 493 4930 500 5100"/>
-        <path class="vine-twig vine-draw" d="M146 980 C102 930 68 884 42 818"/>
-        <path class="vine-twig vine-draw" d="M178 1450 C226 1394 266 1340 294 1268"/>
-        <path class="vine-twig vine-draw" d="M285 2240 C232 2198 190 2150 160 2086"/>
-        <path class="vine-twig vine-draw" d="M418 3190 C470 3138 516 3092 548 3028"/>
-        <path class="vine-twig vine-draw" d="M486 4030 C430 3988 386 3942 356 3880"/>
+        <path class="vine-path vine-draw" d="M70 90 C18 360 120 610 78 900 C34 1200 178 1360 128 1660 C84 1930 214 2150 194 2430 C172 2720 302 2930 344 3160 C392 3425 304 3630 358 3880 C404 4090 468 4300 458 4520 C450 4690 470 4870 500 5100"/>
+        <path class="vine-core vine-draw" d="M70 90 C18 360 120 610 78 900 C34 1200 178 1360 128 1660 C84 1930 214 2150 194 2430 C172 2720 302 2930 344 3160 C392 3425 304 3630 358 3880 C404 4090 468 4300 458 4520 C450 4690 470 4870 500 5100"/>
+        <path class="vine-taper vine-draw" d="M70 90 C45 180 35 270 42 355"/>
+        <path class="vine-branch vine-draw" d="M78 900 C122 845 156 778 168 708"/>
+        <path class="vine-branch vine-draw" d="M128 1660 C78 1598 50 1535 45 1468"/>
+        <path class="vine-branch vine-draw" d="M194 2430 C246 2370 274 2312 278 2248"/>
+        <path class="vine-branch vine-draw" d="M344 3160 C294 3098 268 3036 268 2972"/>
+        <path class="vine-branch vine-draw" d="M358 3880 C416 3820 444 3762 448 3694"/>
+        <path class="vine-branch thin vine-draw" d="M458 4520 C420 4474 398 4430 394 4384"/>
       </g>
+
       <g class="vine-art vine-n-art">
-        <path id="vineN" class="vine-path vine-draw" d="M882 170 C908 520 892 820 846 1120 C798 1430 818 1690 764 1980 C708 2280 628 2520 594 2820 C556 3150 586 3490 538 3820 C495 4120 460 4410 500 4700 C514 4825 507 4930 500 5100"/>
-        <path class="vine-highlight vine-draw" d="M882 170 C908 520 892 820 846 1120 C798 1430 818 1690 764 1980 C708 2280 628 2520 594 2820 C556 3150 586 3490 538 3820 C495 4120 460 4410 500 4700 C514 4825 507 4930 500 5100"/>
-        <path class="vine-twig vine-draw" d="M854 980 C898 930 932 884 958 818"/>
-        <path class="vine-twig vine-draw" d="M822 1450 C774 1394 734 1340 706 1268"/>
-        <path class="vine-twig vine-draw" d="M715 2240 C768 2198 810 2150 840 2086"/>
-        <path class="vine-twig vine-draw" d="M582 3190 C530 3138 484 3092 452 3028"/>
-        <path class="vine-twig vine-draw" d="M514 4030 C570 3988 614 3942 644 3880"/>
+        <path class="vine-path vine-draw" d="M930 90 C982 360 880 610 922 900 C966 1200 822 1360 872 1660 C916 1930 786 2150 806 2430 C828 2720 698 2930 656 3160 C608 3425 696 3630 642 3880 C596 4090 532 4300 542 4520 C550 4690 530 4870 500 5100"/>
+        <path class="vine-core vine-draw" d="M930 90 C982 360 880 610 922 900 C966 1200 822 1360 872 1660 C916 1930 786 2150 806 2430 C828 2720 698 2930 656 3160 C608 3425 696 3630 642 3880 C596 4090 532 4300 542 4520 C550 4690 530 4870 500 5100"/>
+        <path class="vine-taper vine-draw" d="M930 90 C955 180 965 270 958 355"/>
+        <path class="vine-branch vine-draw" d="M922 900 C878 845 844 778 832 708"/>
+        <path class="vine-branch vine-draw" d="M872 1660 C922 1598 950 1535 955 1468"/>
+        <path class="vine-branch vine-draw" d="M806 2430 C754 2370 726 2312 722 2248"/>
+        <path class="vine-branch vine-draw" d="M656 3160 C706 3098 732 3036 732 2972"/>
+        <path class="vine-branch vine-draw" d="M642 3880 C584 3820 556 3762 552 3694"/>
+        <path class="vine-branch thin vine-draw" d="M542 4520 C580 4474 602 4430 606 4384"/>
+      </g>
+
+      <!-- A single flower appears only at the final meeting point. -->
+      <g class="vine-flower vine-draw">
+        <path class="vine-flower-path vine-draw" d="M500 5090 C480 5060 474 5028 484 5002 C492 4980 508 4974 520 4990 C530 4972 548 4980 552 5002 C558 5028 548 5060 500 5090Z"/>
+        <path class="vine-flower-path vine-draw" d="M500 5092 C466 5074 446 5048 452 5024 C458 5004 476 4998 490 5014 C482 4988 494 4972 512 4980 C528 4988 534 5012 526 5038 C520 5058 512 5078 500 5092Z"/>
+        <path class="vine-flower-path vine-draw" d="M500 5092 C534 5074 554 5048 548 5024 C542 5004 524 4998 510 5014 C518 4988 506 4972 488 4980 C472 4988 466 5012 474 5038 C480 5058 488 5078 500 5092Z"/>
+        <circle class="vine-flower-core vine-draw" cx="500" cy="5052" r="13"/>
       </g>
     </svg>
 
