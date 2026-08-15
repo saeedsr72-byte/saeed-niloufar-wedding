@@ -1,151 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>سعید & نیلوفر | دعوت‌نامه عروسی</title>
-  <meta name="description" content="دعوت‌نامه عروسی سعید و نیلوفر">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@400;500&family=Vazirmatn:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سعید و نیلوفر | ۱۰ شهریور ۱۴۰۵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Opening invitation: the page stays hidden until the guest opens the seal. -->
-  <div id="gate" class="gate" aria-modal="true" role="dialog">
-    <div class="gate-glow"></div>
-    <div class="gate-copy">
-      <div class="gate-kicker">S &amp; N</div>
-      <div class="gate-title">شما دعوت هستید</div>
-      <div class="gate-sub">برای آغاز قصه‌ی ما</div>
-    </div>
-
-    <button id="openInvitation" class="lotus-seal" type="button" aria-label="باز کردن دعوت‌نامه">
-      <span class="seal-half seal-yin" aria-hidden="true">
-        <span class="seal-dot seal-dot-light"></span>
-      </span>
-      <span class="seal-half seal-yang" aria-hidden="true">
-        <span class="seal-dot seal-dot-dark"></span>
-      </span>
-      <span class="lotus-line lotus-line-1" aria-hidden="true"></span>
-      <span class="lotus-line lotus-line-2" aria-hidden="true"></span>
-      <span class="seal-center">S&nbsp;&amp;&nbsp;N</span>
+<div id="gate" class="gate">
+  <div class="gate-content">
+    <div class="gate-monogram">S &amp; N</div>
+    <div class="gate-title" data-fa="شما دعوت هستید<br>برای آغاز قصه‌ی ما" data-en="You are invited<br>to begin our story">شما دعوت هستید<br>برای آغاز قصه‌ی ما</div>
+    <button id="enterInvitation" class="lotus-gate" aria-label="Enter invitation">
+      <svg viewBox="0 0 240 240" aria-hidden="true">
+        <g class="yang-side yang-left">
+          <path d="M120 18C70 18 38 58 38 103c0 31 20 57 49 67 23 8 42-5 42-28V18Z"/>
+        </g>
+        <g class="yang-side yang-right">
+          <path d="M120 222c50 0 82-40 82-85 0-31-20-57-49-67-23-8-42 5-42 28v124Z"/>
+        </g>
+        <circle cx="120" cy="120" r="102" class="lotus-ring"/>
+        <g class="lotus-line">
+          <path d="M120 205c-20-29-20-61 0-88 20 27 20 59 0 88Z"/>
+          <path d="M120 205c-39-17-57-43-54-72 28 8 47 31 54 72Z"/>
+          <path d="M120 205c39-17 57-43 54-72-28 8-47 31-54 72Z"/>
+          <path d="M120 117c-15-31-9-57 16-75 12 29 6 52-16 75Z"/>
+          <path d="M120 117c15-31 9-57-16-75-12 29-6 52 16 75Z"/>
+        </g>
+      </svg>
+      <span data-fa="دعوت هستید" data-en="YOU ARE INVITED">دعوت هستید</span>
     </button>
-
-    <div class="gate-hint">دعوت هستید</div>
-    <div class="gate-date">۱۰ شهریور ۱۴۰۵ · شیراز</div>
   </div>
+</div>
+<div class="grain"></div>
+<button id="lang" class="lang">English</button>
 
-  <header class="site-nav">
-    <button id="langToggle" class="lang-toggle" type="button">English</button>
-    <div class="nav-mark">S &amp; N</div>
-  </header>
+<section class="hero reveal">
+  <div class="hero-bg"></div><div class="shade"></div>
+  <div class="hero-text">
+    <div class="mono">S <span>&</span> N</div>
+    <div class="eyebrow" data-fa="داستان ما • فصل اول" data-en="OUR STORY • CHAPTER ONE"></div>
+    <h1 data-fa="سعید <span>&</span> نیلوفر" data-en="Saeed <span>&</span> Niloufar"></h1>
+    <p data-fa="با عشق، آغاز این فصل را با شما جشن می‌گیریم." data-en="With love, we celebrate the beginning of this new chapter with you."></p>
+    <a href="#invite" class="pill" data-fa="ورود به دعوت‌نامه ↓" data-en="ENTER INVITATION ↓"></a>
+  </div>
+</section>
 
-  <main id="site" class="site locked">
-    <section class="hero section reveal">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="eyebrow" data-fa="قصه‌ی ما" data-en="OUR STORY">قصه‌ی ما</div>
-        <div class="monogram">S &amp; N</div>
-        <h1 data-fa="با عشق، شما را به جشن آغاز فصل تازه‌ای از زندگی‌مان دعوت می‌کنیم." data-en="With love, we invite you to celebrate the beginning of a new chapter in our lives.">با عشق، شما را به جشن آغاز فصل تازه‌ای از زندگی‌مان دعوت می‌کنیم.</h1>
-        <div class="names" data-fa="سعید &amp; نیلوفر" data-en="Saeed &amp; Niloufar">سعید &amp; نیلوفر</div>
-        <div class="scroll-note" data-fa="آرام آرام پایین بروید" data-en="SCROLL TO DISCOVER">آرام آرام پایین بروید</div>
-      </div>
-    </section>
+<section id="invite" class="section intro reveal">
+  <div class="star">✦</div>
+  <div class="eyebrow" data-fa="یک آغاز زیبا" data-en="A BEAUTIFUL BEGINNING"></div>
+  <h2 data-fa="بعضی لحظه‌ها را<br>دوست داریم با شما قسمت کنیم." data-en="Some moments<br>are meant to be shared with you."></h2>
+  <p data-fa="حضور شما در این شب، برای ما فقط یک مهمان بودن نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم به یادش بیاوریم." data-en="Having you with us on this night means more than simply being a guest; you are part of a memory we hope to cherish for years to come."></p>
+</section>
 
-    <section class="intro section reveal">
-      <div class="narrow">
-        <div class="eyebrow" data-fa="یک شب، یک قصه" data-en="A BEAUTIFUL BEGINNING">یک شب، یک قصه</div>
-        <h2 data-fa="بعضی لحظه‌ها را دوست داریم با شما قسمت کنیم." data-en="Some moments are meant to be shared with you.">بعضی لحظه‌ها را دوست داریم با شما قسمت کنیم.</h2>
-        <p data-fa="حضور شما در این شب برای ما فقط یک حضور نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم با لبخند به یاد بیاوریم." data-en="Having you with us is more than simply being there; you will be part of a memory we hope to remember with a smile for years to come.">حضور شما در این شب برای ما فقط یک حضور نیست؛ بخشی از خاطره‌ای‌ست که می‌خواهیم سال‌ها بعد هم با لبخند به یاد بیاوریم.</p>
-      </div>
-    </section>
+<section class="photo reveal"><img src="photo-2.jpg" alt=""></section>
 
-    <section class="details section reveal">
-      <div class="eyebrow" data-fa="تاریخ را به خاطر بسپارید" data-en="SAVE THE DATE">تاریخ را به خاطر بسپارید</div>
-      <h2 data-fa="جشن ما" data-en="Our Celebration">جشن ما</h2>
-      <div class="date-grid">
-        <div><span data-fa="روز" data-en="DAY">روز</span><strong data-fa="۱۰" data-en="1">۱۰</strong></div>
-        <div><span data-fa="ماه" data-en="MONTH">ماه</span><strong data-fa="شهریور" data-en="September">شهریور</strong><small data-fa="۱۴۰۵" data-en="2026">۱۴۰۵</small></div>
-        <div><span data-fa="ساعت" data-en="ساعت / TIME">ساعت</span><strong data-fa="۱۹:۰۰" data-en="7:00 PM">۱۹:۰۰</strong><small data-fa="تا پاسی از شب" data-en="until late">تا پاسی از شب</small></div>
-      </div>
-    </section>
+<section class="section center reveal">
+  <div class="eyebrow" data-fa="قرار ما" data-en="SAVE THE DATE"></div>
+  <h2 data-fa="جشن ما" data-en="Our Celebration"></h2>
+  <div class="date">
+    <div><small data-fa="روز" data-en="DAY"></small><b>10</b></div>
+    <div><small data-fa="ماه" data-en="MONTH"></small><b data-fa="شهریور" data-en="September"></b><span data-fa="۱۴۰۵" data-en="2026"></span></div>
+    <div><small data-fa="ساعت" data-en="TIME"></small><b data-fa="۱۹:۰۰" data-en="7:00 PM"></b><span data-fa="تا پاسی از شب" data-en="until late"></span></div>
+  </div>
+</section>
 
-    <section class="venue section reveal">
-      <div class="narrow">
-        <div class="eyebrow" data-fa="محل جشن" data-en="THE VENUE">محل جشن</div>
-        <h2 data-fa="باغ اشکان" data-en="Ashkan Garden">باغ اشکان</h2>
-        <p data-fa="شیراز – ابتدای جاده قلات – کوچه ۲ اقاقیا – باغ اشکان" data-en="Shiraz – Qalat Road entrance – Aghaghia Alley 2 – Ashkan Garden">شیراز – ابتدای جاده قلات – کوچه ۲ اقاقیا – باغ اشکان</p>
-        <a class="map-button" href="https://goo.gl/maps/8CHoFgn1onBiN2kY7?g_st=ac" target="_blank" rel="noopener" data-fa="مسیریابی با Google Maps" data-en="Open in Google Maps">مسیریابی با Google Maps</a>
-      </div>
-    </section>
+<section class="section venue reveal">
+  <div>
+    <div class="eyebrow" data-fa="محل برگزاری" data-en="THE VENUE"></div>
+    <h2 data-fa="باغ اشکان" data-en="Ashkan Garden"></h2>
+    <p data-fa="شیراز<br>ابتدای جاده قلات، کوچه ۲<br>اقاقیا، باغ اشکان" data-en="Shiraz<br>Beginning of Qalat Road, Alley 2<br>Aghaghia, Ashkan Garden"></p>
+    <a class="outline" target="_blank" rel="noopener" href="https://goo.gl/maps/8CHoFgn1onBiN2kY7?g_st=ac" data-fa="مسیریابی در Google Maps ↗" data-en="OPEN IN GOOGLE MAPS ↗"></a>
+  </div>
+  <img src="photo-3.jpg" alt="">
+</section>
 
-    <section class="journey section reveal">
-      <div class="narrow">
-        <div class="eyebrow" data-fa="و حالا..." data-en="OUR JOURNEY">و حالا...</div>
-        <h2 data-fa="این فصل را با هم شروع می‌کنیم." data-en="A new chapter begins with you.">این فصل را با هم شروع می‌کنیم.</h2>
-        <div class="steps">
-          <div class="step"><b>۰۱</b><p data-fa="دو مسیر که انتخاب کردند کنار هم ادامه پیدا کنند." data-en="Two paths that chose to continue side by side.">دو مسیر که انتخاب کردند کنار هم ادامه پیدا کنند.</p></div>
-          <div class="step"><b>۰۲</b><p data-fa="زندگی مشترک، برای ما یک جشن هر روزه است." data-en="A shared life, for us, is a celebration every day.">زندگی مشترک، برای ما یک جشن هر روزه است.</p></div>
-          <div class="step"><b>۰۳</b><p data-fa="این شب را می‌خواهیم با عزیزترین آدم‌هایمان قسمت کنیم." data-en="We want to share this night with the people we love most.">این شب را می‌خواهیم با عزیزترین آدم‌هایمان قسمت کنیم.</p></div>
-        </div>
-      </div>
-    </section>
+<section class="section story reveal">
+  <div class="eyebrow" data-fa="داستان ما" data-en="OUR JOURNEY"></div>
+  <h2 data-fa="و حالا،<br>این فصل را با هم شروع می‌کنیم." data-en="And now,<br>we begin this chapter together."></h2>
+  <div class="line">
+    <article><b>01</b><div><h3 data-fa="ما" data-en="US"></h3><p data-fa="دو مسیر، که انتخاب کردند کنار هم ادامه پیدا کنند." data-en="Two paths that chose to continue side by side."></p></div></article>
+    <article><b>02</b><div><h3 data-fa="زندگی مشترک" data-en="A LIFE TOGETHER"></h3><p data-fa="شروعی که برای ما از یک جشن مهم‌تر است." data-en="A beginning that means more to us than a celebration."></p></div></article>
+    <article><b>03</b><div><h3 data-fa="این شب" data-en="THIS NIGHT"></h3><p data-fa="می‌خواهیم شادی‌مان را با عزیزترین آدم‌های زندگی‌مان قسمت کنیم." data-en="We want to share our joy with the people dearest to us."></p></div></article>
+  </div>
+</section>
 
-    <section class="gallery section reveal">
-      <div class="narrow">
-        <div class="eyebrow" data-fa="از ما، برای شما" data-en="A FEW MOMENTS">از ما، برای شما</div>
-        <h2 data-fa="چند قاب از قصه‌ی ما" data-en="A few frames from our story">چند قاب از قصه‌ی ما</h2>
-      </div>
-      <div class="photo-flow">
-        <img src="photo-1.jpg" alt="Saeed & Niloufar" loading="lazy" class="reveal">
-        <img src="photo-2.jpg" alt="Saeed & Niloufar" loading="lazy" class="reveal">
-        <img src="photo-3.jpg" alt="Saeed & Niloufar" loading="lazy" class="reveal">
-        <img src="photo-4.jpg" alt="Saeed & Niloufar" loading="lazy" class="reveal">
-        <img src="photo-5.jpg" alt="Saeed & Niloufar" loading="lazy" class="reveal">
-      </div>
-    </section>
+<section class="section photo-story reveal">
+  <div class="eyebrow" data-fa="چند قاب از ما" data-en="A FEW MOMENTS"></div>
+  <h2 data-fa="از ما، برای شما" data-en="From us, for you"></h2>
+  <div class="gallery">
+    <img src="photo-1.jpg" alt=""><img src="photo-4.jpg" alt=""><img src="photo-5.jpg" alt="">
+  </div>
+</section>
 
-    <section class="music section reveal">
-      <div class="narrow">
-        <div class="eyebrow" data-fa="آهنگ ما" data-en="OUR SONG">آهنگ ما</div>
-        <h2 data-fa="یک موسیقی برای این شب" data-en="A song for this night">یک موسیقی برای این شب</h2>
-        <p data-fa="این موسیقی همراه شما در ادامه‌ی این قصه خواهد بود." data-en="Let this song accompany you through the rest of our story.">این موسیقی همراه شما در ادامه‌ی این قصه خواهد بود.</p>
-      </div>
-    </section>
+<!-- Music controls are intentionally hidden. The active language selects its song automatically. -->
+<audio id="player" preload="auto" autoplay playsinline></audio>
 
-    <section class="countdown section reveal">
-      <div class="eyebrow" data-fa="تا جشن ما" data-en="UNTIL WE CELEBRATE">تا جشن ما</div>
-      <div class="count-grid">
-        <div><strong id="days">00</strong><span data-fa="روز" data-en="DAYS">روز</span></div>
-        <div><strong id="hours">00</strong><span data-fa="ساعت" data-en="HOURS">ساعت</span></div>
-        <div><strong id="minutes">00</strong><span data-fa="دقیقه" data-en="MINUTES">دقیقه</span></div>
-        <div><strong id="seconds">00</strong><span data-fa="ثانیه" data-en="SECONDS">ثانیه</span></div>
-      </div>
-    </section>
+<section class="count center reveal">
+  <div class="eyebrow" data-fa="تا جشن ما" data-en="UNTIL WE CELEBRATE"></div>
+  <div class="timer">
+    <div><b id="d">--</b><span data-fa="روز" data-en="DAYS"></span></div>
+    <div><b id="h">--</b><span data-fa="ساعت" data-en="HOURS"></span></div>
+    <div><b id="m">--</b><span data-fa="دقیقه" data-en="MINUTES"></span></div>
+    <div><b id="s">--</b><span data-fa="ثانیه" data-en="SECONDS"></span></div>
+  </div>
+</section>
 
-    <section class="rsvp section reveal">
-      <div class="narrow">
-        <div class="eyebrow" data-fa="تأیید حضور" data-en="RSVP">تأیید حضور</div>
-        <h2 data-fa="آیا در جشن ما کنارمان هستید؟" data-en="Will you join us?">آیا در جشن ما کنارمان هستید؟</h2>
-        <p data-fa="اگر افتخار حضورمان را می‌دهید، خوشحال می‌شویم به ما خبر بدهید." data-en="If you can join us, we'd love to know.">اگر افتخار حضورمان را می‌دهید، خوشحال می‌شویم به ما خبر بدهید.</p>
-        <div class="rsvp-actions">
-          <a href="#" class="rsvp-btn" data-fa="با عشق می‌آیم" data-en="YES, I'LL BE THERE">با عشق می‌آیم</a>
-          <a href="#" class="rsvp-btn ghost" data-fa="این بار نمی‌توانم" data-en="SORRY, I CAN'T">این بار نمی‌توانم</a>
-        </div>
-      </div>
-    </section>
+<section class="section closing center reveal">
+  <div class="mono dark">S & N</div>
+  <div class="eyebrow" data-fa="با عشق" data-en="WITH LOVE"></div>
+  <h2 data-fa="منتظر دیدار شما هستیم." data-en="We can't wait to see you."></h2>
+  <p data-fa="سعید رنجبر<br>&<br>نیلوفر معصومی" data-en="Saeed Ranjbar<br>&<br>Niloufar Masoumi"></p>
+  <small data-fa="۱۰ شهریور ۱۴۰۵ • شیراز" data-en="1 September 2026 • Shiraz"></small>
+</section>
 
-    <footer class="footer section reveal">
-      <div class="monogram">S &amp; N</div>
-      <div class="eyebrow" data-fa="با عشق، سعید و نیلوفر" data-en="WITH LOVE, SAEED & NILOUFAR">با عشق، سعید و نیلوفر</div>
-      <p data-fa="۱۰ شهریور ۱۴۰۵ · شیراز" data-en="1 September 2026 · Shiraz">۱۰ شهریور ۱۴۰۵ · شیراز</p>
-    </footer>
-  </main>
-
-  <audio id="faAudio" preload="auto" loop src="Pol.mp3"></audio>
-  <audio id="enAudio" preload="auto" loop src="Ordinary.mp3"></audio>
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
