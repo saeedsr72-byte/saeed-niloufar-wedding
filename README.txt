@@ -1,33 +1,29 @@
-S&N WEDDING — SAFE UPDATE
-==========================
+S&N Wedding Invitation — V6 Botanical / Fingerprint Gate
 
-This package is intentionally a PATCH, not a full rebuild.
+This package is based on the stable V5 build. Existing working features were preserved:
+- Persian / English reset-to-gate behavior
+- click-to-open audio on mobile
+- Persian-source countdown for 10 Shahrivar 1405 at 19:00 Tehran
+- English display date: 1 September 2026
+- Google Maps button with red pin
+- RSVP via FormSubmit to Saeed.sr72@gmail.com
+- Tehran visit time in RSVP
+- global site view counter in RSVP
+- existing wedding photos and logo
 
-Why:
-The current GitHub version is already working (language reset, gate, music, countdown,
-RSVP, photos, map, and scroll animation). Do NOT replace the whole project with an
-older prototype; that is how the page got broken in earlier iterations.
+New in V6:
+1) The previous Tilda-style gate emblem is removed.
+2) The center now uses the supplied Design 04 fingerprint artwork as a real raster asset, split into two animated halves.
+3) Minimal botanical/lotus-inspired ornament surrounds the fingerprint seal.
+4) The gate split animation is slowed to about 2.3 seconds.
+5) The old CSS-drawn vine lines and fixed mid-page leaves are removed.
+6) Two illustrated botanical creeper assets enter from the left and right edges, reveal downward with page scroll, converge near the bottom, and finish with a lotus illustration.
 
-1) Replace the existing `script.js` with the `script.js` in this package.
+Important:
+- fingerprint-seal.png is a cropped/cleaned version of Design 04 from the supplied reference sheet. If the actual personal fingerprint artwork is supplied later, replace ONLY fingerprint-seal.png with the final transparent PNG; no HTML/JS change is required.
+- Do not delete vine-left.svg, vine-right.svg, or lotus.svg.
 
-2) In `index.html`, replace ONLY the current opening `<button id="openInvitation"...>`
-   block (the botanical/ornamental SVG block) with the snippet in `gate-replacement.html`.
+Upload all files in this folder to the repository root and commit them. GitHub Pages will publish the static HTML/CSS/JS assets from the repository.
 
-3) At the bottom of `index.html`, remove this line if it exists:
-   <script defer src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
-
-   Keep the normal:
-   <script src="script.js"></script>
-
-Nothing else should be changed.
-
-What this update does:
-- Restores the opening element to a minimal Tilda-style two-piece organic shape.
-- Keeps the proven split/open timing, but makes it slightly slower (2.25 s).
-- Keeps the language switch as a full page reset, so the gate always returns.
-- Keeps the Persian date as the countdown source of truth.
-- Keeps the English display date as exactly: 1 September 2026.
-- Keeps the RSVP email flow to Saeed.sr72@gmail.com.
-- Fixes `site_total_views`: it now calls CounterAPI directly and writes the returned
-  global total into the hidden RSVP field before submission.
-- Does NOT touch the existing vine artwork, photos, logo, map, or RSVP layout.
+AUDIO NOTE:
+Keep the existing Ordinary.mp3 and Pol.mp3 files already in your GitHub repository. They are intentionally not duplicated in this package because the current working repository already contains them and their binary files were not available in the working folder.
