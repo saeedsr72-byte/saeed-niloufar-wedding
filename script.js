@@ -1,119 +1,111 @@
-const target = new Date("2026-08-31T19:00:00+03:30").getTime();
+const gate = document.getElementById("gate");
+const openBtn = document.getElementById("openInvitation");
+const site = document.getElementById("site");
+const langToggle = document.getElementById("langToggle");
+const faAudio = document.getElementById("faAudio");
+const enAudio = document.getElementById("enAudio");
 
 let lang = "fa";
-let currentTrack = "";
-let interactionUnlocked = false;
+let opened = false;
 
-const tracks = {
-  en: "Ordinary.mp3",
-  fa: "Pol.mp3"
-};
-
-const player = document.getElementById("player");
-const gate = document.getElementById("gate");
-const site = document.getElementById("site");
-const enter = document.getElementById("enter");
-const langButton = document.getElementById("lang");
-
-player.src = tracks.en;
-player.load();
-
-function playCurrentTrack(){
-  const promise = player.play();
-  if (promise && promise.catch) promise.catch(() => {});
-}
-
-function setTrack(forcePlay = true){
-  const next = tracks[lang];
-  if(currentTrack !== next){
-    currentTrack = next;
-    player.src = next;
-    player.load();
-  }
-  if(forcePlay) playCurrentTrack();
-}
-
-function applyLanguage(shouldPlay = false){
+function setLanguage(next, shouldScroll = true) {
+  lang = next;
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
 
-  document.querySelectorAll("[data-fa]").forEach(el => {
-    el.innerHTML = el.dataset[lang];
+  document.querySelectorAll("[data-fa][data-en]").forEach(el => {
+    el.textContent = el.dataset[lang];
   });
 
-  langButton.textContent = lang === "fa" ? "English" : "فارسی";
-  document.title = lang === "fa"
-    ? "سعید و نیلوفر | ۱۰ شهریور ۱۴۰۵"
-    : "Saeed & Niloufar | 31 August 2026";
+  langToggle.textContent = lang === "fa" ? "English" : "فارسی";
 
-  setTrack(shouldPlay);
-}
+  if (opened) {
+    const current = lang === "fa" ? faAudio : enAudio;
+    const other = lang === "fa" ? enAudio : faAudio;
+    other.pause();
+    other.currentTime = 0;
+    current.play().catch(() => {});
+  }
 
-function switchLanguage(){
-  lang = lang === "en" ? "fa" : "en";
-  applyLanguage(interactionUnlocked);
-  window.scrollTo({top:0,left:0,behavior:"instant"});
-}
-
-langButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  switchLanguage();
-});
-
-function enterInvitation(){
-  interactionUnlocked = true;
-  setTrack(true);
-  document.body.classList.add("opening");
-
-  // Reveal the lotus / yin-yang seal first, then begin the story.
-  setTimeout(() => {
-    site.hidden = false;
-    gate.classList.add("fade-out");
-  }, 650);
-
-  setTimeout(() => {
-    gate.hidden = true;
-    document.body.classList.remove("opening");
-    window.scrollTo({top:0,left:0,behavior:"instant"});
-  }, 1450);
-}
-
-enter.addEventListener("click", enterInvitation);
-
-window.addEventListener("DOMContentLoaded", () => {
-  applyLanguage(false);
-});
-
-function unlockAudio(){
-  if(interactionUnlocked) return;
-  interactionUnlocked = true;
-  playCurrentTrack();
-}
-["pointerdown","touchstart","keydown"].forEach(evt => {
-  window.addEventListener(evt, unlockAudio, {capture:true, passive:true, once:true});
-});
-
-document.querySelectorAll(".rsvp-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    btn.classList.add("selected");
-    setTimeout(() => btn.classList.remove("selected"), 900);
-  });
-});
-
-function tick(){
-  let x = Math.max(0, target - Date.now());
-  let d = Math.floor(x / 86400000);
-  x %= 86400000;
-  let h = Math.floor(x / 3600000);
-  x %= 3600000;
-  let m = Math.floor(x / 60000);
-  let s = Math.floor(x / 1000) % 60;
-
-  for(const [id, value] of [["d",d],["h",h],["m",m],["s",s]]){
-    document.getElementById(id).textContent = String(value).padStart(2,"0");
+  if (shouldScroll) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
 
-tick();
-setInterval(tick, 1000);
+langToggle.addEventListener("click", () => {
+  setLanguage(lang === "fa" ? "en" : "fa", true);
+});
+
+async function startAudio() {
+  const current = lang === "fa" ? faAudio : enAudio;
+  const other = lang === "fa" ? enAudio : faAudio;
+  other.pause();
+  other.currentTime = 0;
+  try {
+    await current.play();
+  } catch (e) {
+    // The opening click itself is still the user gesture; some browsers
+    // may require the audio file to be fully reachable before playback.
+  }
+}
+
+openBtn.addEventListener("click", async () => {
+  if (opened) return;
+  opened = true;
+
+  // The first user gesture starts the selected language track.
+  startAudio();
+
+  gate.classList.add("split");
+  site.classList.remove("locked");
+
+  // Give the split animation time to breathe before removing the gate.
+  setTimeout(() => gate.classList.add("opened"), 1050);
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+    document.querySelector(".hero")?.classList.add("visible");
+  }, 1100);
+});
+
+// Reveal sections as the guest scrolls.
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: "0px 0px -7% 0px" });
+
+document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+// Countdown: 31 August 2026, 19:00 local time.
+const target = new Date(2026, 7, 31, 19, 0, 0);
+
+function updateCountdown() {
+  const now = new Date();
+  let diff = target - now;
+  if (diff < 0) diff = 0;
+
+  const days = Math.floor(diff / 86400000);
+  diff %= 86400000;
+  const hours = Math.floor(diff / 3600000);
+  diff %= 3600000;
+  const minutes = Math.floor(diff / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById("days").textContent = String(days).padStart(2, "0");
+  document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+  document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+  document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Default is Persian.
+setLanguage("fa", false);
+
+// Prevent dead RSVP placeholder links from jumping to the top.
+document.querySelectorAll(".rsvp-btn").forEach(btn => {
+  btn.addEventListener("click", e => e.preventDefault());
+});

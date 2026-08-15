@@ -1,10 +1,39 @@
-Saeed & Niloufar Wedding Invitation — final revision
+# Saeed & Niloufar Wedding Invitation — V3
 
-Default language: Persian (فارسی)
-Date: 10 Shahrivar 1405 / 31 August 2026
-Venue: Shiraz — Beginning of Qalat Road — Aghaghia Alley 2 — Ashkan Garden
-English venue: Ashkan Garden
-Music: Pol.mp3 for Persian, Ordinary.mp3 for English
-Opening flow: You Are Invited screen -> click Open Invitation -> lotus-inspired yin-yang seal animation -> story page.
+## Upload to GitHub Pages
 
-Upload/replace index.html, style.css and script.js in GitHub. Keep your existing photos and MP3 files.
+Replace these four files in the repository:
+- index.html
+- style.css
+- script.js
+- README.txt
+
+Keep these existing files in the repository:
+- photo-1.jpg
+- photo-2.jpg
+- photo-3.jpg
+- photo-4.jpg
+- photo-5.jpg
+- Pol.mp3
+- Ordinary.mp3
+
+## Important
+The default language is Persian.
+The opening invitation is an interactive full-screen gate:
+1. "شما دعوت هستید" appears over the lotus-inspired yin-yang seal.
+2. The guest taps the seal.
+3. The two halves/petals separate and reveal the invitation.
+4. The Persian song starts from that user gesture.
+5. Scrolling triggers fade-in animations.
+
+Dates:
+- Persian: ۱۰ شهریور ۱۴۰۵
+- English: 31st August 2026
+- Time: 19:00 / 7:00 PM
+
+Venue:
+- فارسی: شیراز – ابتدای جاده قلات – کوچه ۲ اقاقیا – باغ اشکان
+- English: Shiraz – Qalat Road entrance – Aghaghia Alley 2 – Ashkan Garden
+
+Google Maps:
+https://goo.gl/maps/8CHoFgn1onBiN2kY7?g_st=ac
