@@ -1,155 +1,170 @@
-(() => {
-  'use strict';
+const gate = document.getElementById("gate");
+const openBtn = document.getElementById("openInvitation");
+const site = document.getElementById("site");
+const langToggle = document.getElementById("langToggle");
+const faAudio = document.getElementById("faAudio");
+const enAudio = document.getElementById("enAudio");
+const rsvpModal = document.getElementById("rsvpModal");
+const rsvpForm = document.getElementById("rsvpForm");
+const rsvpStatus = document.getElementById("rsvpStatus");
+const visitTime = document.getElementById("visitTime");
+const siteTotalViews = document.getElementById("siteTotalViews");
+const formLanguage = document.getElementById("formLanguage");
 
-  const state = { lang: 'fa', entered: false };
+let lang = "fa";
+let opened = false;
+let viewCount = "Unavailable";
+let visitStartedAt = new Date();
 
-  // Countdown is based on the requested Persian event date:
-  // 10 Shahrivar 1405, 19:00 Iran time.
-  // Equivalent Gregorian instant: 31 Aug 2026, 19:00 at UTC+03:30.
-  const WEDDING_TARGET = new Date('2026-08-31T19:00:00+03:30').getTime();
-
-  const gate = document.getElementById('gate');
-  const openButton = document.getElementById('openInvitation');
-  const languageToggle = document.getElementById('languageToggle');
-  const languageLabel = document.getElementById('languageLabel');
-  const music = document.getElementById('music');
-  const form = document.getElementById('rsvpForm');
-
-  const tracks = {
-    fa: 'Pol.mp3',
-    en: 'Ordinary.mp3'
-  };
-
-  function applyLanguage(lang, reset = false) {
-    state.lang = lang;
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-    languageLabel.textContent = lang === 'fa' ? 'English' : 'فارسی';
-
-    document.querySelectorAll('[data-fa][data-en]').forEach((el) => {
-      const text = el.getAttribute(`data-${lang}`);
-      if (text !== null) el.innerHTML = text;
-    });
-
-    document.querySelectorAll('[data-placeholder-fa][data-placeholder-en]').forEach((el) => {
-      el.placeholder = el.getAttribute(`data-placeholder-${lang}`) || '';
-    });
-
-    document.querySelector('.date-fa').classList.toggle('hidden', lang !== 'fa');
-    document.querySelector('.date-en').classList.toggle('hidden', lang !== 'en');
-    document.querySelector('.fa-only').classList.toggle('hidden', lang !== 'fa');
-    document.querySelector('.en-only').classList.toggle('hidden', lang !== 'en');
-
-    // Changing language intentionally restarts the invitation gate.
-    if (reset) resetInvitation();
-  }
-
-  function resetReveals() {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.remove('is-visible'));
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => observer && document.querySelectorAll('.reveal').forEach(el => observer.observe(el)));
-    });
-  }
-
-  function resetInvitation() {
-    state.entered = false;
-    document.body.classList.add('locked');
-    gate.classList.remove('is-opening', 'is-open');
-    window.scrollTo(0, 0);
-
-    music.pause();
-    music.currentTime = 0;
-    music.src = tracks[state.lang];
-    music.load();
-    resetReveals();
-  }
-
-  function startMusic() {
-    music.src = tracks[state.lang];
-    music.loop = true;
-    music.volume = 0.78;
-    music.load();
-    // Important: play is called directly inside the user's pointer gesture.
-    const promise = music.play();
-    if (promise && typeof promise.catch === 'function') promise.catch(() => {});
-  }
-
-  function enterInvitation(event) {
-    if (event) event.preventDefault();
-    if (state.entered) return;
-    state.entered = true;
-
-    startMusic();
-
-    gate.classList.add('is-opening');
-    window.setTimeout(() => {
-      gate.classList.add('is-open');
-      document.body.classList.remove('locked');
-      window.scrollTo(0, 0);
-    }, 1150);
-  }
-
-  function updateCountdown() {
-    let remaining = Math.max(0, WEDDING_TARGET - Date.now());
-    const days = Math.floor(remaining / 86400000);
-    remaining %= 86400000;
-    const hours = Math.floor(remaining / 3600000);
-    remaining %= 3600000;
-    const minutes = Math.floor(remaining / 60000);
-    const seconds = Math.floor(remaining / 1000) % 60;
-
-    document.getElementById('days').textContent = String(days).padStart(2, '0');
-    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-  }
-
-  function submitRSVP(event) {
-    event.preventDefault();
-    const selected = form.querySelector('input[name="attendance"]:checked');
-    const message = document.getElementById('rsvpMessage');
-
-    if (!selected) {
-      message.textContent = state.lang === 'fa' ? 'لطفاً یکی از گزینه‌ها را انتخاب کنید.' : 'Please choose one of the options.';
-      return;
-    }
-
-    message.textContent = state.lang === 'fa'
-      ? 'پاسخ شما ثبت شد؛ ممنون که به ما خبر دادید. ♡'
-      : 'Thank you — your RSVP has been noted. ♡';
-  }
-
-  let observer = null;
-  function initRevealObserver() {
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
-      return;
-    }
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  }
-
-  // pointerup is reliable on mobile and is a genuine user gesture for audio playback.
-  openButton.addEventListener('pointerup', enterInvitation, { passive: false });
-  openButton.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') enterInvitation(event);
+function applyLanguage(next){
+  lang = next;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-fa][data-en]").forEach(el=>{
+    el.innerHTML = lang === "fa" ? el.dataset.fa : el.dataset.en;
   });
+  langToggle.textContent = lang === "fa" ? "English" : "فارسی";
+  formLanguage.value = lang === "fa" ? "Persian" : "English";
+  document.title = lang === "fa" ? "سعید و نیلوفر | ۱۰ شهریور ۱۴۰۵" : "Saeed & Niloufar | 1 September 2026";
+}
 
-  languageToggle.addEventListener('click', () => {
-    applyLanguage(state.lang === 'fa' ? 'en' : 'fa', true);
-  });
+function stopAudio(){
+  [faAudio,enAudio].forEach(a=>{a.pause();a.currentTime=0;});
+}
+async function playCurrentTrack(){
+  const current = lang === "fa" ? faAudio : enAudio;
+  const other = lang === "fa" ? enAudio : faAudio;
+  other.pause(); other.currentTime=0;
+  try{await current.play();}
+  catch(e){current.addEventListener("canplay",()=>current.play().catch(()=>{}),{once:true});}
+}
 
-  form.addEventListener('submit', submitRSVP);
+function resetToGate(){
+  opened=false;
+  rsvpModal.classList.remove("open");
+  rsvpModal.setAttribute("aria-hidden","true");
+  stopAudio();
+  document.body.classList.add("gate-open");
+  site.classList.add("locked");
+  gate.classList.remove("split","opened");
+  window.scrollTo({top:0,left:0,behavior:"instant"});
+  document.querySelectorAll(".reveal.visible").forEach(el=>el.classList.remove("visible"));
+  setTimeout(()=>document.querySelector(".hero")?.classList.add("visible"),250);
+}
 
-  applyLanguage('fa', false);
-  updateCountdown();
-  window.setInterval(updateCountdown, 1000);
-  initRevealObserver();
-})();
+langToggle.addEventListener("click",()=>{
+  applyLanguage(lang === "fa" ? "en" : "fa");
+  resetToGate();
+});
+
+openBtn.addEventListener("click",async()=>{
+  if(opened) return;
+  opened=true;
+  await playCurrentTrack();
+  document.body.classList.add("gate-open");
+  site.classList.remove("locked");
+  gate.classList.add("split");
+  setTimeout(()=>{
+    gate.classList.add("opened");
+    document.body.classList.remove("gate-open");
+    window.scrollTo({top:0,left:0,behavior:"instant"});
+    document.querySelector(".hero")?.classList.add("visible");
+  },1250);
+});
+
+// Countdown is anchored to the Persian event date: 10 Shahrivar 1405 at 19:00 Tehran.
+// 10 Shahrivar 1405 = 1 September 2026, but the English date is never used to define the countdown.
+const target = new Date("2026-09-01T19:00:00+03:30").getTime();
+function updateCountdown(){
+  let diff=Math.max(0,target-Date.now());
+  const days=Math.floor(diff/86400000); diff%=86400000;
+  const hours=Math.floor(diff/3600000); diff%=3600000;
+  const minutes=Math.floor(diff/60000); const seconds=Math.floor((diff%60000)/1000);
+  document.getElementById("days").textContent=String(days).padStart(2,"0");
+  document.getElementById("hours").textContent=String(hours).padStart(2,"0");
+  document.getElementById("minutes").textContent=String(minutes).padStart(2,"0");
+  document.getElementById("seconds").textContent=String(seconds).padStart(2,"0");
+}
+updateCountdown(); setInterval(updateCountdown,1000);
+
+// Scroll reveals.
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");revealObserver.unobserve(entry.target);}});
+},{threshold:.12,rootMargin:"0px 0px -7% 0px"});
+document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
+
+// S and N vines: draw progressively as the guest scrolls toward the end of the story.
+const vineS=document.getElementById("vineS"), vineN=document.getElementById("vineN");
+function setupVines(){
+  [vineS,vineN].forEach(p=>{const len=p.getTotalLength();p.style.strokeDasharray=len;p.style.strokeDashoffset=len;});
+}
+function updateVines(){
+  if(!vineS||!vineN) return;
+  const max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+  const progress=Math.min(1,Math.max(0,window.scrollY/max));
+  const start=.04, end=.94;
+  const p=Math.min(1,Math.max(0,(progress-start)/(end-start)));
+  [vineS,vineN].forEach(path=>{const len=path.getTotalLength();path.style.strokeDashoffset=String(len*(1-p));});
+}
+window.addEventListener("resize",()=>{setupVines();updateVines();});
+window.addEventListener("scroll",updateVines,{passive:true});
+setupVines();updateVines();
+
+// CounterAPI: total site views. It is intentionally public because this is a static GitHub Pages site.
+function trackVisit(){
+  const started=new Date();
+  visitStartedAt=started;
+  visitTime.value=started.toLocaleString("en-GB",{timeZone:"Asia/Tehran",hour12:false})+" (Tehran)";
+  if(window.Counter){
+    try{
+      const counter=new Counter({version:"v1",namespace:"saeed-niloufar-wedding"});
+      counter.up("site-views").then(result=>{
+        viewCount=String(result.value ?? result.data ?? "Unavailable");
+        siteTotalViews.value=viewCount;
+      }).catch(()=>{siteTotalViews.value=viewCount;});
+    }catch(e){siteTotalViews.value=viewCount;}
+  } else {
+    setTimeout(trackVisit,800);
+  }
+}
+trackVisit();
+
+function openModal(){
+  rsvpModal.classList.add("open");
+  rsvpModal.setAttribute("aria-hidden","false");
+  rsvpStatus.textContent="";
+  visitTime.value=new Date().toLocaleString("en-GB",{timeZone:"Asia/Tehran",hour12:false})+" (Tehran)";
+  siteTotalViews.value=viewCount;
+  document.querySelector("#rsvpForm input[name='name']")?.focus();
+}
+function closeModal(){rsvpModal.classList.remove("open");rsvpModal.setAttribute("aria-hidden","true");}
+document.getElementById("rsvpOpen").addEventListener("click",openModal);
+document.querySelectorAll("[data-close-modal]").forEach(el=>el.addEventListener("click",closeModal));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
+
+rsvpForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const submit=document.getElementById("submitRsvp");
+  submit.disabled=true;
+  rsvpStatus.textContent=lang === "fa" ? "در حال ارسال..." : "Sending...";
+  visitTime.value=new Date().toLocaleString("en-GB",{timeZone:"Asia/Tehran",hour12:false})+" (Tehran)";
+  siteTotalViews.value=viewCount;
+  const payload=Object.fromEntries(new FormData(rsvpForm).entries());
+  try{
+    const response=await fetch("https://formsubmit.co/ajax/Saeed.sr72@gmail.com",{
+      method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)
+    });
+    const data=await response.json();
+    if(!response.ok || data.success===false) throw new Error("Submission failed");
+    rsvpStatus.textContent=lang === "fa" ? "پاسخ شما با موفقیت برای ما ارسال شد ❤️" : "Your RSVP has been sent successfully ❤️";
+    rsvpForm.reset();
+    formLanguage.value=lang === "fa" ? "Persian" : "English";
+    visitTime.value=new Date().toLocaleString("en-GB",{timeZone:"Asia/Tehran",hour12:false})+" (Tehran)";
+    siteTotalViews.value=viewCount;
+  }catch(err){
+    rsvpStatus.textContent=lang === "fa" ? "ارسال انجام نشد؛ لطفاً دوباره تلاش کنید." : "Something went wrong. Please try again.";
+  }finally{submit.disabled=false;}
+});
+
+applyLanguage("fa");
+window.addEventListener("load",()=>{setupVines();updateVines();});
