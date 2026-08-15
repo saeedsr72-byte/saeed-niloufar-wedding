@@ -1,7 +1,6 @@
 /* S&N Wedding Invitation — stable interaction build */
 (() => {
   'use strict';
-
   const gate = document.getElementById('gate');
   const openButton = document.getElementById('openInvitation');
   const site = document.getElementById('site');
@@ -10,7 +9,6 @@
   const enAudio = document.getElementById('enAudio');
   const rsvpModal = document.getElementById('rsvpModal');
   const rsvpForm = document.getElementById('rsvpForm');
-
   if (!gate || !openButton || !site || !langButton || !faAudio || !enAudio) {
     console.error('S&N: critical invitation elements are missing.');
     return;
@@ -28,16 +26,13 @@
     lang = next === 'en' ? 'en' : 'fa';
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-
     document.querySelectorAll('[data-fa][data-en]').forEach((el) => {
       el.innerHTML = lang === 'fa' ? el.dataset.fa : el.dataset.en;
     });
-
     langButton.textContent = lang === 'fa' ? 'English' : 'فارسی';
     document.title = lang === 'fa'
       ? 'سعید و نیلوفر | ۱۰ شهریور ۱۴۰۵'
       : 'Saeed & Niloufar | 1 September 2026';
-
     const formLanguage = document.getElementById('formLanguage');
     if (formLanguage) formLanguage.value = lang === 'fa' ? 'Persian' : 'English';
   }
@@ -48,7 +43,6 @@
       try { audio.currentTime = 0; } catch (_) {}
     });
   }
-
   function playLanguageTrack() {
     const audio = tracks[lang];
     const other = lang === 'fa' ? tracks.en : tracks.fa;
@@ -58,7 +52,6 @@
     const promise = audio.play();
     if (promise && typeof promise.catch === 'function') promise.catch(() => {});
   }
-
   function lockGate() {
     opened = false;
     stopAudio();
@@ -68,29 +61,22 @@
     gate.setAttribute('aria-hidden', 'false');
     window.scrollTo(0, 0);
   }
-
   function openInvitation() {
     if (opened) return;
     opened = true;
-
-    // This click is the user gesture that authorizes audio on mobile browsers.
     playLanguageTrack();
-
     document.body.classList.add('gate-open');
     site.classList.remove('locked');
     gate.classList.add('split');
-
-    // Keep the proven split timing; only after the animation finishes do we hide the gate.
     window.setTimeout(() => {
       gate.classList.add('opened');
       gate.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('gate-open');
       window.scrollTo(0, 0);
       document.querySelector('.hero')?.classList.add('visible');
-    }, 1900);
+    }, 2250);
   }
 
-  // Language change deliberately reloads the invitation so the gate appears again.
   langButton.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -98,17 +84,12 @@
     try { sessionStorage.setItem('snWeddingLang', next); } catch (_) {}
     window.location.reload();
   });
-
   openButton.addEventListener('click', openInvitation, { passive: true });
-  // Fallback for touch/click implementations that behave differently on older mobile browsers.
   openButton.onclick = openInvitation;
 
-  // Initial state: gate is always present on a fresh load.
   setLanguage(lang);
   lockGate();
 
-  // Countdown is anchored to 10 Shahrivar 1405, 19:00 Tehran.
-  // The Persian date is the source of truth; the English date is display-only.
   function resolvePersianEventDate() {
     const formatter = new Intl.DateTimeFormat('en-US-u-ca-persian', {
       timeZone: 'Asia/Tehran', year: 'numeric', month: 'numeric', day: 'numeric'
@@ -124,10 +105,8 @@
         return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
       }
     }
-    // Known conversion fallback for environments without the Persian calendar implementation.
     return '2026-09-01';
   }
-
   const eventDate = resolvePersianEventDate();
   const countdownTarget = new Date(`${eventDate}T19:00:00+03:30`).getTime();
 
@@ -135,17 +114,16 @@
     let diff = Math.max(0, countdownTarget - Date.now());
     const days = Math.floor(diff / 86400000); diff %= 86400000;
     const hours = Math.floor(diff / 3600000); diff %= 3600000;
-    const minutes = Math.floor(diff / 60000); const seconds = Math.floor((diff % 60000) / 1000);
-    const values = { days, hours, minutes, seconds };
-    Object.entries(values).forEach(([id, value]) => {
+    const minutes = Math.floor(diff / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+    [['days',days],['hours',hours],['minutes',minutes],['seconds',seconds]].forEach(([id,value]) => {
       const el = document.getElementById(id);
-      if (el) el.textContent = String(value).padStart(2, '0');
+      if (el) el.textContent = String(value).padStart(2,'0');
     });
   }
   updateCountdown();
   window.setInterval(updateCountdown, 1000);
 
-  // Scroll reveal.
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -160,10 +138,8 @@
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   }
 
-  // S and N branches draw with page progress and meet/intertwine at the bottom.
   const vineDraws = Array.from(document.querySelectorAll('.vine-draw'));
   let vineLengths = [];
-
   function setupVines() {
     vineLengths = vineDraws.map(path => {
       if (!path || typeof path.getTotalLength !== 'function') return 0;
@@ -173,12 +149,10 @@
       return len;
     });
   }
-
   function updateVines() {
     if (!vineDraws.length || !vineLengths.length) return;
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-    // Start gently after the hero and finish exactly at the bottom where S and N meet.
     const p = Math.min(1, Math.max(0, (progress - 0.015) / 0.985));
     vineDraws.forEach((path, i) => {
       const len = vineLengths[i] || 0;
@@ -197,13 +171,11 @@
       flower.style.transform = `scale(${0.7 + fp * 0.3})`;
     }
   }
-
   setupVines();
   updateVines();
   window.addEventListener('resize', () => { setupVines(); updateVines(); });
   window.addEventListener('scroll', updateVines, { passive: true });
 
-  // RSVP modal.
   const rsvpOpen = document.getElementById('rsvpOpen');
   const rsvpStatus = document.getElementById('rsvpStatus');
   const visitTime = document.getElementById('visitTime');
@@ -213,7 +185,6 @@
   function tehranTime() {
     return new Date().toLocaleString('en-GB', { timeZone: 'Asia/Tehran', hour12: false }) + ' (Tehran)';
   }
-
   function openRsvp() {
     if (!rsvpModal) return;
     rsvpModal.classList.add('open');
@@ -240,7 +211,6 @@
     if (visitTime) visitTime.value = tehranTime();
     if (siteTotalViews) siteTotalViews.value = viewCount;
     if (formLanguage) formLanguage.value = lang === 'fa' ? 'Persian' : 'English';
-
     try {
       const response = await fetch('https://formsubmit.co/ajax/Saeed.sr72@gmail.com', {
         method: 'POST',
@@ -263,17 +233,26 @@
     }
   });
 
-  // Optional view counter. Failure here can never block the invitation.
-  function trackVisit() {
-    if (!window.Counter) return;
+  /*
+    FIX: CounterAPI is called directly.
+    The previous Counter wrapper could silently leave the field as "Unavailable".
+    This call increments one global counter for every page visit and puts the
+    returned total into the hidden RSVP field.
+  */
+  async function trackVisit() {
+    const endpoint = 'https://api.counterapi.dev/v1/saeed-niloufar-wedding/site-views/up';
     try {
-      const counter = new Counter({ version: 'v1', namespace: 'saeed-niloufar-wedding' });
-      counter.up('site-views').then(result => {
-        viewCount = String(result?.value ?? result?.data ?? 'Unavailable');
+      const response = await fetch(endpoint, { method: 'GET', cache: 'no-store' });
+      if (!response.ok) throw new Error(`Counter HTTP ${response.status}`);
+      const result = await response.json();
+      const value = result?.value ?? result?.count ?? result?.data?.value ?? result?.data?.count;
+      if (value !== undefined && value !== null) {
+        viewCount = String(value);
         if (siteTotalViews) siteTotalViews.value = viewCount;
-      }).catch(() => {});
-    } catch (_) {}
+      }
+    } catch (error) {
+      console.warn('S&N view counter unavailable:', error);
+    }
   }
-  if (window.Counter) trackVisit();
-  else window.addEventListener('load', trackVisit, { once: true });
+  trackVisit();
 })();
