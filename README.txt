@@ -1,12 +1,24 @@
-S&N Wedding Invitation — SAFE AUDIO + VINES PATCH
+S&N Wedding Invitation — FINAL CLEAN BUILD
 
-This package preserves the current working fingerprint Design-04 gate, language reset, countdown, RSVP, Google Maps pin, logos and page content.
+Upload every file in this folder to the GitHub Pages repository ROOT.
+Keep the existing two audio files in the repository: Ordinary.mp3 and Pol.mp3.
+Do not rename the audio files.
 
-Changes in this patch:
-1) Both Pol.mp3 and Ordinary.mp3 are preloaded immediately on page load and also decoded in the background when Web Audio is available. The invitation click starts the selected language track immediately when the buffer is ready, with native audio fallback otherwise.
-2) The botanical vine artwork is restored as the actual supplied SVG asset `vines-intertwined.svg`, starting around A FEW MOMENTS and revealing downward with scroll.
-3) `lotus-real.png` remains the real photographic flower used at the bottom; no CSS-drawn flower is introduced.
+Included/finalized:
+- Persian / English language toggle resets the page to the opening gate.
+- Click-to-open gate with the COMPLETE Design 04 artwork split from the exact center.
+- Click-to-open audio with background preload for lower start latency.
+- Persian-source countdown: 10 Shahrivar 1405, 19:00 Tehran.
+- English display date: 1 September 2026.
+- Header logo is transparent/no button background and follows the page.
+- Hero logo is smaller/lower so it does not cover faces.
+- Real red Google Maps pin.
+- RSVP with no default attendance selection, sent to Saeed.sr72@gmail.com.
+- Tehran visit time included in RSVP.
+- Site total view counter included in RSVP (CounterAPI best-effort).
+- Full-bleed photo storytelling with soft fade edges.
+- Real botanical SVG creepers from both edges, beginning around A FEW MOMENTS,
+  converging after the final photo and ending at a real lotus photograph.
+- No CSS-drawn vine lines and no fixed mid-page leaf decoration.
 
-IMPORTANT:
-- Keep your existing Pol.mp3 and Ordinary.mp3 in the GitHub repository root. They are not included here.
-- Upload/replace the files in this package at the repository root. Existing MP3 files must remain untouched.
+IMPORTANT: This package intentionally does NOT contain Ordinary.mp3 or Pol.mp3.
