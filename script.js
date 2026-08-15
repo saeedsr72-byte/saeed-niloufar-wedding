@@ -87,7 +87,7 @@
       document.body.classList.remove('gate-open');
       window.scrollTo(0, 0);
       document.querySelector('.hero')?.classList.add('visible');
-    }, 1250);
+    }, 1900);
   }
 
   // Language change deliberately reloads the invitation so the gate appears again.
@@ -184,6 +184,18 @@
       const len = vineLengths[i] || 0;
       path.style.strokeDashoffset = String(len * (1 - p));
     });
+    document.querySelectorAll('.vine-leaf').forEach((leaf) => {
+      const at = Number(leaf.dataset.vineAt || 0);
+      const local = Math.max(0, Math.min(1, (p - at) / 0.055));
+      leaf.style.opacity = String(local);
+      leaf.style.transform = `scale(${0.72 + local * 0.28})`;
+    });
+    const flower = document.querySelector('.final-flower');
+    if (flower) {
+      const fp = Math.max(0, Math.min(1, (p - 0.965) / 0.035));
+      flower.style.opacity = String(fp);
+      flower.style.transform = `scale(${0.7 + fp * 0.3})`;
+    }
   }
 
   setupVines();

@@ -1,12 +1,12 @@
-S&N Wedding Invitation — V5 Details v2
+S&N Wedding Invitation — V5 Details v3
 
-This build keeps the proven gate / language reset / music / countdown / RSVP behavior intact.
+This revision keeps the stable gate / language reset / audio / countdown / RSVP logic and changes only the visual layer requested for this round:
+- Replaced the Yin-Yang opening emblem with a botanical floral medallion that opens more slowly.
+- Reduced and lowered the hero S&N logo so it does not sit over the faces.
+- Rebuilt the story vines as organic, woody creepers with filled botanical leaves that reveal progressively with scroll.
+- Removed the previous fixed-leaf workaround.
+- Replaced the end-of-page oval flower workaround with a shaped floral rosette.
 
-Visual changes in this build:
-- Opening seal redesigned as an ornamental botanical / lotus Yin-Yang.
-- Hero S&N logo reduced slightly and moved lower to avoid faces in the hero photograph.
-- The previous fixed leaf/twig look was removed.
-- S and N are now represented by thicker organic woody vines with branch offshoots.
-- The vines grow according to scroll progress, remain behind text/photos, converge near the bottom, and form a single flower at the final meeting point.
-
-Upload all files together to GitHub Pages and replace the previous build.
+GitHub:
+Replace index.html, style.css and script.js with these versions.
+Keep your existing Pol.mp3 and Ordinary.mp3 files in the same folder if they are already in your repository.
