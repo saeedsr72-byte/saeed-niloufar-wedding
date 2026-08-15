@@ -58,3 +58,115 @@ button,input,select,textarea{font:inherit}
   .gate.split .fingerprint-left-fo{transform:translateX(-70vw) rotate(-12deg)}
   .gate.split .fingerprint-right-fo{transform:translateX(70vw) rotate(12deg)}
 }
+
+/* V7 precision pass — keep the interaction build intact; only replace the visual treatments requested. */
+.nav-brand{
+  min-width:0;
+  width:42px;
+  height:42px;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+.nav-brand img{height:30px;width:auto;filter:brightness(.72)}
+.hero-logo{
+  width:min(126px,28vw);
+  margin-top:22px;
+  margin-bottom:18px;
+}
+
+/* The fingerprint itself is the exact supplied Design-04 artwork, split into two real image halves. */
+.fingerprint-stage{
+  position:absolute;
+  inset:0;
+  display:block;
+  overflow:visible;
+}
+.fingerprint-half{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:292px;
+  height:292px;
+  transform:translate(-50%,-50%);
+  transform-origin:center;
+  overflow:hidden;
+  transition:transform 2.7s cubic-bezier(.18,.72,.16,1),opacity 2.1s ease;
+  will-change:transform,opacity;
+  filter:drop-shadow(0 12px 9px rgba(0,0,0,.42));
+}
+.fingerprint-half img{
+  position:absolute;
+  top:0;
+  width:292px;
+  height:292px;
+  max-width:none;
+  display:block;
+}
+.fingerprint-left{clip-path:inset(0 146px 0 0)}
+.fingerprint-right{clip-path:inset(0 0 0 146px)}
+.fingerprint-left img{left:0}
+.fingerprint-right img{left:0}
+.gate.split .fingerprint-left{transform:translate(calc(-50% - 61vw),-50%) rotate(-11deg);opacity:0}
+.gate.split .fingerprint-right{transform:translate(calc(-50% + 61vw),-50%) rotate(11deg);opacity:0}
+@media(max-width:760px){
+  .nav-brand{width:40px;height:40px}
+  .nav-brand img{height:28px}
+  .hero-logo{width:min(112px,27vw);margin-top:30px;margin-bottom:16px}
+  .fingerprint-half{width:245px;height:245px}
+  .fingerprint-half img{width:245px;height:245px}
+  .fingerprint-left{clip-path:inset(0 122.5px 0 0)}
+  .fingerprint-right{clip-path:inset(0 0 0 122.5px)}
+  .gate.split .fingerprint-left{transform:translate(calc(-50% - 70vw),-50%) rotate(-12deg)}
+  .gate.split .fingerprint-right{transform:translate(calc(-50% + 70vw),-50%) rotate(12deg)}
+}
+
+/* Vines are supplied as an actual botanical SVG asset; no CSS line-drawing is used. */
+.story-vines{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:1px;
+  z-index:4;
+  pointer-events:none;
+  overflow:visible;
+  opacity:1;
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .12s linear;
+}
+.vine-botanical-art{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:fill;
+  opacity:.68;
+}
+.vine-lotus-photo{
+  position:absolute;
+  left:50%;
+  bottom:-8px;
+  width:min(150px,27vw);
+  aspect-ratio:1/1;
+  transform:translate(-50%,18px) scale(.82);
+  opacity:0;
+  overflow:visible;
+  border-radius:0;
+  transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.8,.2,1);
+}
+.vine-lotus-photo img{
+  width:100%;height:100%;display:block;object-fit:cover;object-position:center;
+  filter:saturate(.82) contrast(.96) brightness(.98);
+  object-fit:contain;
+  object-position:center bottom;
+}
+.story-vines.vines-finished .vine-lotus-photo{opacity:1;transform:translate(-50%,0) scale(1)}
+@media(max-width:760px){
+  .vine-botanical-art{opacity:.56}
+  .vine-lotus-photo{width:118px}
+}

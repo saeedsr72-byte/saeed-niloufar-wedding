@@ -160,24 +160,32 @@
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   }
 
-  // Botanical vine artwork reveals from both edges as the page scrolls.
+  // Botanical vine artwork starts at A FEW MOMENTS, stays close to the edges,
+  // then converges, crosses and braids toward the real lotus photograph at the bottom.
   const vineScene = document.querySelector('.story-vines');
-  const vineAssets = Array.from(document.querySelectorAll('.vine-asset'));
+  const gallerySection = document.querySelector('.gallery');
+
+  function layoutVines() {
+    if (!vineScene || !gallerySection) return;
+    const start = gallerySection.offsetTop + Math.min(42, gallerySection.querySelector('.gallery-head')?.offsetHeight || 42);
+    const height = Math.max(1, site.scrollHeight - start);
+    vineScene.style.top = `${start}px`;
+    vineScene.style.height = `${height}px`;
+  }
 
   function updateVines() {
-    if (!vineScene || !vineAssets.length) return;
-    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-    const p = Math.min(1, Math.max(0, (progress - 0.015) / 0.985));
-    const bottomHidden = (1 - p) * 100;
-    vineAssets.forEach((asset, index) => {
-      // Slightly stagger the two creepers so the meeting feels organic rather than mechanical.
-      const local = Math.min(1, Math.max(0, p * 1.04 - index * 0.012));
-      asset.style.clipPath = `inset(0 0 ${((1 - local) * 100).toFixed(2)}% 0)`;
-    });
-    if (p > 0.965) vineScene.classList.add('vines-finished');
+    if (!vineScene || !gallerySection) return;
+    layoutVines();
+    const start = parseFloat(vineScene.style.top) || gallerySection.offsetTop;
+    const height = Math.max(1, parseFloat(vineScene.style.height) || 1);
+    const trigger = window.scrollY + window.innerHeight * 0.72;
+    const progress = Math.min(1, Math.max(0, (trigger - start) / height));
+    vineScene.style.clipPath = `inset(0 0 ${((1 - progress) * 100).toFixed(2)}% 0)`;
+    if (progress > .965) vineScene.classList.add('vines-finished');
     else vineScene.classList.remove('vines-finished');
   }
+
+  layoutVines();
   updateVines();
   window.addEventListener('resize', updateVines);
   window.addEventListener('scroll', updateVines, { passive: true });

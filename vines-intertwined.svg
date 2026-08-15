@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 5000" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="stemLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7f694f"/><stop offset=".5" stop-color="#5f6b4b"/><stop offset="1" stop-color="#46563b"/>
+    </linearGradient>
+    <linearGradient id="stemRight" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7f694f"/><stop offset=".5" stop-color="#5f6b4b"/><stop offset="1" stop-color="#46563b"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#84936a"/><stop offset=".55" stop-color="#62744e"/><stop offset="1" stop-color="#3e5137"/>
+    </linearGradient>
+    <filter id="softShadow"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#2d251d" flood-opacity=".16"/></filter>
+  </defs>
+  <g filter="url(#softShadow)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- The two real-vine silhouettes begin at the outer edges, stay quiet beside content, then deliberately cross and braid together near the end. -->
+    <path d="M48 0 C22 260 92 470 45 720 C8 940 78 1160 48 1380 C20 1600 100 1800 74 2010 C48 2220 118 2440 150 2620 C185 2810 164 2990 238 3150 C302 3290 368 3410 440 3535 C510 3655 560 3780 515 3920 C475 4045 415 4110 465 4225 C515 4340 610 4420 565 4555 C535 4645 500 4750 500 5000" stroke="url(#stemLeft)" stroke-width="8"/>
+    <path d="M952 0 C978 260 908 470 955 720 C992 940 922 1160 952 1380 C980 1600 900 1800 926 2010 C952 2220 882 2440 850 2620 C815 2810 836 2990 762 3150 C698 3290 632 3410 560 3535 C490 3655 440 3780 485 3920 C525 4045 585 4110 535 4225 C485 4340 390 4420 435 4555 C465 4645 500 4750 500 5000" stroke="url(#stemRight)" stroke-width="8"/>
+    <path d="M48 0 C22 260 92 470 45 720 C8 940 78 1160 48 1380 C20 1600 100 1800 74 2010 C48 2220 118 2440 150 2620 C185 2810 164 2990 238 3150 C302 3290 368 3410 440 3535 C510 3655 560 3780 515 3920 C475 4045 415 4110 465 4225 C515 4340 610 4420 565 4555 C535 4645 500 4750 500 5000" stroke="#b39a79" stroke-width="2" opacity=".55"/>
+    <path d="M952 0 C978 260 908 470 955 720 C992 940 922 1160 952 1380 C980 1600 900 1800 926 2010 C952 2220 882 2440 850 2620 C815 2810 836 2990 762 3150 C698 3290 632 3410 560 3535 C490 3655 440 3780 485 3920 C525 4045 585 4110 535 4225 C485 4340 390 4420 435 4555 C465 4645 500 4750 500 5000" stroke="#b39a79" stroke-width="2" opacity=".55"/>
+  </g>
+  <g fill="url(#leaf)" stroke="#405137" stroke-width="2" opacity=".92">
+    <!-- Left leaves: deliberately sparse and small. -->
+    <path d="M48 610 C8 584 -2 548 5 516 C36 520 55 548 48 610Z"/><path d="M53 650 C88 640 110 615 111 584 C79 585 57 608 53 650Z"/>
+    <path d="M48 1240 C12 1218 2 1185 9 1153 C38 1157 57 1182 48 1240Z"/><path d="M50 1280 C84 1271 105 1247 106 1217 C76 1218 54 1240 50 1280Z"/>
+    <path d="M78 1910 C39 1887 29 1853 36 1820 C68 1825 86 1852 78 1910Z"/><path d="M82 1950 C118 1941 140 1915 141 1883 C109 1884 87 1910 82 1950Z"/>
+    <path d="M150 2670 C112 2648 102 2615 110 2583 C141 2588 159 2614 150 2670Z"/><path d="M158 2710 C194 2701 216 2676 217 2645 C185 2646 163 2670 158 2710Z"/>
+    <path d="M244 3180 C210 3160 201 3130 208 3102 C237 3106 253 3129 244 3180Z"/>
+    <path d="M952 610 C992 584 1002 548 995 516 C964 520 945 548 952 610Z"/><path d="M947 650 C912 640 890 615 889 584 C921 585 943 608 947 650Z"/>
+    <path d="M952 1240 C988 1218 998 1185 991 1153 C962 1157 943 1182 952 1240Z"/><path d="M950 1280 C916 1271 895 1247 894 1217 C924 1218 946 1240 950 1280Z"/>
+    <path d="M922 1910 C961 1887 971 1853 964 1820 C932 1825 914 1852 922 1910Z"/><path d="M918 1950 C882 1941 860 1915 859 1883 C891 1884 913 1910 918 1950Z"/>
+    <path d="M850 2670 C888 2648 898 2615 890 2583 C859 2588 841 2614 850 2670Z"/><path d="M842 2710 C806 2701 784 2676 783 2645 C815 2646 837 2670 842 2710Z"/>
+    <path d="M756 3180 C790 3160 799 3130 792 3102 C763 3106 747 3129 756 3180Z"/>
+    <!-- Tiny leaves near the braid, so the center remains elegant rather than busy. -->
+    <path d="M470 3835 C432 3825 414 3800 416 3774 C447 3775 468 3797 470 3835Z"/>
+    <path d="M530 3835 C568 3825 586 3800 584 3774 C553 3775 532 3797 530 3835Z"/>
+    <path d="M475 4325 C442 4314 425 4291 428 4268 C455 4270 474 4290 475 4325Z"/>
+    <path d="M525 4325 C558 4314 575 4291 572 4268 C545 4270 526 4290 525 4325Z"/>
+  </g>
+</svg>
