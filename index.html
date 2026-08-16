@@ -21,14 +21,49 @@
     </div>
 
     <button id="openInvitation" class="ornament-seal" type="button" aria-label="باز کردن دعوت‌نامه">
-      <div class="fingerprint-design" aria-hidden="true">
-        <div class="fingerprint-half fingerprint-left"><img src="design04-full.png" alt=""></div>
-        <div class="fingerprint-half fingerprint-right"><img src="design04-full.png" alt=""></div>
-      </div>
+      <svg class="opening-emblem" viewBox="0 0 360 360" aria-hidden="true">
+        <defs>
+          <radialGradient id="goldGlow" cx="50%" cy="45%" r="62%">
+            <stop offset="0" stop-color="#fff6dc" stop-opacity=".95"/>
+            <stop offset=".38" stop-color="#e1bf73" stop-opacity=".72"/>
+            <stop offset="1" stop-color="#6e4722" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="sealGlow"><feGaussianBlur stdDeviation="4"/></filter>
+          <filter id="sealShadow"><feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#000" flood-opacity=".45"/></filter>
+          <clipPath id="leftHalf"><rect x="34" y="34" width="146" height="292" rx="4"/></clipPath>
+          <clipPath id="rightHalf"><rect x="180" y="34" width="146" height="292" rx="4"/></clipPath>
+        </defs>
+        <circle cx="180" cy="180" r="146" fill="url(#goldGlow)" opacity=".5" filter="url(#sealGlow)"/>
+        <circle cx="180" cy="180" r="139" fill="none" stroke="#d9b66d" stroke-width="1.2" opacity=".58"/>
+        <circle cx="180" cy="180" r="132" fill="none" stroke="#e8d4a4" stroke-width=".8" stroke-dasharray="2 7" opacity=".48"/>
+
+        <!-- Fingerprint artwork is rendered as two HTML image halves for reliable mobile split animation. -->
+        <foreignObject x="34" y="34" width="292" height="292" class="fingerprint-fo fingerprint-left-fo">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="fingerprint-piece fingerprint-left-piece"><img src="fingerprint-seal.png" alt="" /></div>
+        </foreignObject>
+        <foreignObject x="34" y="34" width="292" height="292" class="fingerprint-fo fingerprint-right-fo">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="fingerprint-piece fingerprint-right-piece"><img src="fingerprint-seal.png" alt="" /></div>
+        </foreignObject>
+
+        <g class="seal-botanical" fill="none" stroke="#d8b46a" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke-width="2.2" d="M94 103C65 76 52 48 63 25"/>
+          <path stroke-width="2.2" d="M266 103C295 76 308 48 297 25"/>
+          <path stroke-width="1.6" d="M100 103C82 96 68 86 58 73"/>
+          <path stroke-width="1.6" d="M260 103C278 96 292 86 302 73"/>
+          <path stroke-width="1.6" d="M77 64C59 61 48 53 43 41C59 40 72 47 77 64Z" fill="#cba65d"/>
+          <path stroke-width="1.6" d="M283 64C301 61 312 53 317 41C301 40 288 47 283 64Z" fill="#cba65d"/>
+          <path stroke-width="1.6" d="M91 91C72 91 58 84 50 72C67 69 82 76 91 91Z" fill="#a88a50"/>
+          <path stroke-width="1.6" d="M269 91C288 91 302 84 310 72C293 69 278 76 269 91Z" fill="#a88a50"/>
+          <path stroke-width="1.6" d="M93 257C67 273 51 293 49 315C71 308 87 290 93 257Z" fill="#b99454"/>
+          <path stroke-width="1.6" d="M267 257C293 273 309 293 311 315C289 308 273 290 267 257Z" fill="#b99454"/>
+        </g>
+        <circle cx="180" cy="180" r="3" fill="#f3d48b"/>
+        <g class="sparkles" fill="#efd083"><circle cx="180" cy="18" r="2.5"/><circle cx="342" cy="180" r="2.5"/><circle cx="180" cy="342" r="2.5"/><circle cx="18" cy="180" r="2.5"/></g>
+      </svg>
       <span class="gate-hint" data-fa="دعوت هستید" data-en="YOU ARE INVITED">دعوت هستید</span>
     </button>
 
-    <div class="gate-date" data-fa="۱۰ شهریور ۱۴۰۵ · شیراز" data-en="1 September 2026 · Shiraz">۱۰ شهریور ۱۴۰۵ · شیراز</div>
+    <div class="gate-date" data-fa="۱۰ شهریور ۱۴۰۵ · شیراز" data-en="31 August 2026 · Shiraz">۱۰ شهریور ۱۴۰۵ · شیراز</div>
   </div>
 
   <header class="site-nav">
@@ -41,7 +76,7 @@
       <div class="vine-asset vine-left"><img src="vine-left.svg" alt=""></div>
       <div class="vine-asset vine-right"><img src="vine-right.svg" alt=""></div>
       <div class="vine-merge-glow"></div>
-      <div class="vine-lotus-photo"><img src="lotus-real.png" alt=""></div>
+      <img class="vine-lotus" src="lotus.svg" alt="">
     </div>
 
     <section class="hero section reveal">
@@ -71,7 +106,7 @@
       <div class="date-grid">
         <div><span data-fa="روز" data-en="DAY">روز</span><strong data-fa="۱۰" data-en="1">۱۰</strong></div>
         <div><span data-fa="ماه" data-en="MONTH">ماه</span><strong data-fa="شهریور" data-en="September">شهریور</strong><small data-fa="۱۴۰۵" data-en="2026">۱۴۰۵</small></div>
-        <div><span data-fa="ساعت" data-en="ساعت / TIME">ساعت</span><strong data-fa="۱۹:۰۰" data-en="7:00 PM">۱۹:۰۰</strong><small data-fa="تا پاسی از شب" data-en="until late">تا پاسی از شب</small></div>
+        <div><span data-fa="ساعت" data-en="TIME">ساعت</span><strong data-fa="۱۹:۰۰" data-en="7:00 PM">۱۹:۰۰</strong><small data-fa="تا پاسی از شب" data-en="until late">تا پاسی از شب</small></div>
       </div>
     </section>
 
@@ -149,7 +184,7 @@
         <h2 data-fa="منتظر دیدار شما هستیم." data-en="We can't wait to see you.">منتظر دیدار شما هستیم.</h2>
         <p data-fa="سعید رنجبر<br>&amp;<br>نیلوفر معصومی" data-en="Saeed Ranjbar<br>&amp;<br>Niloufar Masoumi">سعید رنجبر<br>&amp;<br>نیلوفر معصومی</p>
         <div class="final-thanks" data-fa="از اینکه بخشی از قصه‌ی ما هستید، ممنونیم." data-en="Thank you for being part of our story.">از اینکه بخشی از قصه‌ی ما هستید، ممنونیم.</div>
-        <small data-fa="۱۰ شهریور ۱۴۰۵ · شیراز" data-en="1 September 2026 · Shiraz">۱۰ شهریور ۱۴۰۵ · شیراز</small>
+        <small data-fa="۱۰ شهریور ۱۴۰۵ · شیراز" data-en="31 August 2026 · Shiraz">۱۰ شهریور ۱۴۰۵ · شیراز</small>
       </div>
     </section>
   </main>
@@ -161,7 +196,7 @@
       <div class="eyebrow" data-fa="تأیید حضور" data-en="RSVP">تأیید حضور</div>
       <h2 id="rsvpTitle" data-fa="پاسخ شما برای ما ارزشمند است." data-en="Your answer means a lot to us.">پاسخ شما برای ما ارزشمند است.</h2>
       <form id="rsvpForm">
-        <input type="hidden" name="_subject" value="S&N Wedding RSVP — 1 September 2026">
+        <input type="hidden" name="_subject" value="S&N Wedding RSVP — 31 August 2026">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="language" id="formLanguage" value="Persian">

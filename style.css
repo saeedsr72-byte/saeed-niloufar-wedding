@@ -31,14 +31,23 @@ button,input,select,textarea{font:inherit}
 @media(max-width:760px){.section{padding:95px 20px}.site-nav{top:12px;padding:0 14px}.nav-brand,.lang-toggle{height:40px;min-width:76px}.nav-brand img{height:28px}.hero{min-height:100svh}.hero h1{font-size:35px}.date-grid strong{font-size:34px}.date-grid>div{padding:30px 8px}.date-grid span{font-size:11px}.venue-inner{grid-template-columns:1fr;gap:35px}.venue-photo{height:430px}.photo-flow{grid-template-columns:1fr}.photo-blend:first-child{grid-column:auto}.count-grid{grid-template-columns:repeat(2,1fr)}.count-grid>div:nth-child(2){border-left:0}.ornament-seal{width:245px;height:245px}.gate-title{font-size:26px}.gate-sub{font-size:13px}.gate.split .seal-left{transform:translateX(-62vw) rotate(-14deg)}.gate.split .seal-right{transform:translateX(62vw) rotate(14deg)}.modal-card{padding:32px 18px}.modal-card h2{font-size:29px}.story-vines{opacity:.42}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.reveal.visible{transition:none;transform:none;opacity:1}.gate,.seal-ornament{transition:none}.story-vines{display:none}}
 
-/* V6 botanical assets: no CSS-drawn vines. The creepers are external illustrated SVG artwork. */
-.story-vines{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;opacity:1;overflow:hidden}
-.vine-asset{position:absolute;top:0;height:100%;width:min(12vw,135px);overflow:hidden;will-change:clip-path;clip-path:inset(0 0 100% 0)}
-.vine-asset img{display:block;width:100%;height:100%;object-fit:fill;opacity:.78;filter:drop-shadow(0 1px 2px rgba(43,31,20,.14))}
-.vine-left{left:0}.vine-right{right:0}
-.vine-merge-glow{position:absolute;left:50%;bottom:28px;width:180px;height:110px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(221,190,125,.18),transparent 68%);opacity:0;transition:opacity .8s ease}
-.vine-lotus{position:absolute;left:50%;bottom:0;width:min(210px,34vw);height:auto;transform:translate(-50%,28px) scale(.72);opacity:0;filter:drop-shadow(0 5px 9px rgba(46,34,22,.2));transition:opacity .9s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
-.story-vines.vines-finished .vine-merge-glow{opacity:1}.story-vines.vines-finished .vine-lotus{opacity:1;transform:translate(-50%,0) scale(1)}
+/* V8.1 — keep the existing thin edge vines, but let them converge only after the last photo. */
+.story-vines{position:absolute !important;left:0 !important;right:auto !important;top:0;width:100% !important;height:0;pointer-events:none;z-index:4;overflow:visible !important;opacity:1 !important}
+.vine-asset{position:absolute !important;top:0 !important;height:100% !important;width:min(13vw,82px) !important;min-width:48px !important;max-width:82px !important;overflow:hidden !important;clip-path:inset(0 0 100% 0);will-change:clip-path,transform}
+.vine-asset img{display:block;width:100% !important;height:100% !important;object-fit:fill !important;opacity:.64 !important;filter:none !important}
+.vine-left{left:0 !important;right:auto !important;transform-origin:12% 100%}
+.vine-right{right:0 !important;left:auto !important;transform-origin:88% 100%}
+.vine-merge-glow,.vine-lotus{display:none !important}
+/* During the final approach, the already-revealed stems travel inward very gently. */
+.vine-left.is-converging{transform:translateX(var(--vine-shift,0px)) rotate(-1.2deg)}
+.vine-right.is-converging{transform:translateX(calc(var(--vine-shift,0px) * -1)) rotate(1.2deg)}
+
+/* The English date is intentionally clean: no mixed Persian/English label in the time column. */
+[dir="ltr"] .date-grid{direction:ltr}
+[dir="ltr"] .date-grid>div{border-left:0;border-right:1px solid #c9bdae}
+[dir="ltr"] .date-grid>div:last-child{border-right:0}
+[dir="ltr"] .date-grid span,[dir="ltr"] .date-grid small{font-family:"DM Sans",sans-serif;letter-spacing:.1em}
+[dir="ltr"] .date-grid strong{white-space:nowrap}
 /* Gate: real fingerprint artwork split into two halves, surrounded by a minimal S&N botanical ornament. */
 .opening-emblem{overflow:visible}
 /* Real fingerprint artwork: HTML images inside SVG foreignObject so the split is reliable on mobile browsers. */
@@ -59,46 +68,75 @@ button,input,select,textarea{font:inherit}
   .gate.split .fingerprint-right-fo{transform:translateX(70vw) rotate(12deg)}
 }
 
-/* V7 precision pass — keep the interaction build intact; only replace the visual treatments requested. */
-.nav-brand{
-  min-width:0;
-  width:42px;
-  height:42px;
-  padding:0;
-  border:0;
-  background:transparent;
-  box-shadow:none;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
+/* =========================================================
+   FINAL MOBILE-FIRST POLISH — S&N WEDDING
+   Keep the existing structure; only fix the visual pieces
+   that were previously patched but not loaded by index.html.
+   ========================================================= */
+
+/* The floating NS mark is artwork only — never a pill, card or button. */
+.site-nav .nav-brand{
+  pointer-events:auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
-.nav-brand img{height:30px;width:auto;filter:brightness(.72)}
-.hero-logo{
-  width:min(126px,28vw);
-  margin-top:22px;
-  margin-bottom:18px;
+.site-nav .nav-brand img{
+  display:block !important;
+  width:auto !important;
+  height:27px !important;
+  object-fit:contain;
+  filter:brightness(.72);
 }
 
-/* The fingerprint itself is the exact supplied Design-04 artwork, split into two real image halves. */
-.fingerprint-stage{
-  position:absolute;
-  inset:0;
-  display:block;
-  overflow:visible;
+/* Keep the language control as a pill; only the NS logo is free-floating. */
+.site-nav .lang-toggle{
+  pointer-events:auto;
 }
-.fingerprint-half{
+
+/* Hero mark: smaller and slightly lower, without changing the composition. */
+.hero-content .hero-logo{
+  width:min(92px,21vw) !important;
+  margin-top:24px !important;
+  margin-bottom:14px !important;
+  transform:translateY(10px);
+}
+
+/* Opening screen: use the supplied real Design-04 fingerprint as-is.
+   The old SVG/Yin-Yang ornament is hidden; the image itself is split. */
+.opening-emblem{
+  display:none !important;
+}
+.gate-fingerprint-safe{
   position:absolute;
-  top:50%;
   left:50%;
+  top:50%;
   width:292px;
   height:292px;
   transform:translate(-50%,-50%);
-  transform-origin:center;
-  overflow:hidden;
-  transition:transform 2.7s cubic-bezier(.18,.72,.16,1),opacity 2.1s ease;
-  will-change:transform,opacity;
-  filter:drop-shadow(0 12px 9px rgba(0,0,0,.42));
+  z-index:1;
+  pointer-events:none;
+  overflow:visible;
 }
-.fingerprint-half img{
+.gate-fp-half{
+  position:absolute;
+  top:0;
+  width:146px;
+  height:292px;
+  overflow:hidden;
+  will-change:transform,opacity;
+  transition:transform 2.75s cubic-bezier(.16,.74,.12,1), opacity 1.9s ease;
+  filter:drop-shadow(0 12px 9px rgba(0,0,0,.36));
+}
+.gate-fp-half img{
   position:absolute;
   top:0;
   width:292px;
@@ -106,112 +144,81 @@ button,input,select,textarea{font:inherit}
   max-width:none;
   display:block;
 }
-.fingerprint-left{clip-path:inset(0 146px 0 0)}
-.fingerprint-right{clip-path:inset(0 0 0 146px)}
-.fingerprint-left img{left:0}
-.fingerprint-right img{left:0}
-.gate.split .fingerprint-left{transform:translate(calc(-50% - 61vw),-50%) rotate(-11deg);opacity:0}
-.gate.split .fingerprint-right{transform:translate(calc(-50% + 61vw),-50%) rotate(11deg);opacity:0}
-@media(max-width:760px){
-  .nav-brand{width:40px;height:40px}
-  .nav-brand img{height:28px}
-  .hero-logo{width:min(112px,27vw);margin-top:30px;margin-bottom:16px}
-  .fingerprint-half{width:245px;height:245px}
-  .fingerprint-half img{width:245px;height:245px}
-  .fingerprint-left{clip-path:inset(0 122.5px 0 0)}
-  .fingerprint-right{clip-path:inset(0 0 0 122.5px)}
-  .gate.split .fingerprint-left{transform:translate(calc(-50% - 70vw),-50%) rotate(-12deg)}
-  .gate.split .fingerprint-right{transform:translate(calc(-50% + 70vw),-50%) rotate(12deg)}
-}
-
-/* Vines are supplied as an actual botanical SVG asset; no CSS line-drawing is used. */
-.story-vines{
-  position:absolute;
-  left:0;
-  top:0;
-  width:100%;
-  height:1px;
-  z-index:4;
-  pointer-events:none;
-  overflow:visible;
-  opacity:1;
-  clip-path:inset(0 0 100% 0);
-  transition:clip-path .12s linear;
-}
-.vine-botanical-art{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:fill;
-  opacity:.68;
-}
-.vine-lotus-photo{
-  position:absolute;
-  left:50%;
-  bottom:-8px;
-  width:min(150px,27vw);
-  aspect-ratio:1/1;
-  transform:translate(-50%,18px) scale(.82);
+.gate-fp-left{left:0}
+.gate-fp-left img{left:0}
+.gate-fp-right{right:0}
+.gate-fp-right img{left:-146px}
+.gate-fingerprint-safe.split .gate-fp-left{
+  transform:translateX(calc(-70vw - 18px)) rotate(-10deg);
   opacity:0;
-  overflow:visible;
-  border-radius:0;
-  transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.8,.2,1);
 }
-.vine-lotus-photo img{
-  width:100%;height:100%;display:block;object-fit:cover;object-position:center;
-  filter:saturate(.82) contrast(.96) brightness(.98);
-  object-fit:contain;
-  object-position:center bottom;
-}
-.story-vines.vines-finished .vine-lotus-photo{opacity:1;transform:translate(-50%,0) scale(1)}
-@media(max-width:760px){
-  .vine-botanical-art{opacity:.56}
-  .vine-lotus-photo{width:118px}
+.gate-fingerprint-safe.split .gate-fp-right{
+  transform:translateX(calc(70vw + 18px)) rotate(10deg);
+  opacity:0;
 }
 
-
-/* FINAL CLEAN BUILD — no CSS-drawn vines, exact Design 04 artwork. */
-.nav-brand{
-  min-width:0;width:42px;height:42px;padding:0;border:0;background:transparent;
-  box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+/* Vines: extremely thin, quiet, organic, always hugging the page edges. */
+.story-vines{
+  position:absolute !important;
+  left:0 !important;
+  right:auto !important;
+  top:0;
+  width:100% !important;
+  height:0;
+  pointer-events:none;
+  z-index:4;
+  overflow:visible !important;
+  opacity:1 !important;
 }
-.nav-brand img{height:30px;width:auto;display:block;filter:brightness(.72)}
-.hero-logo{width:min(126px,28vw);height:auto;margin-top:22px;margin-bottom:18px}
+.vine-asset{
+  position:absolute !important;
+  top:0 !important;
+  height:100% !important;
+  width:min(13vw,82px) !important;
+  min-width:48px !important;
+  max-width:82px !important;
+  overflow:hidden !important;
+  clip-path:inset(0 0 100% 0);
+  will-change:clip-path,transform;
+}
+.vine-left{left:0 !important;right:auto !important;transform-origin:12% 100%}
+.vine-right{right:0 !important;left:auto !important;transform-origin:88% 100%}
+.vine-asset img{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  object-fit:fill !important;
+  opacity:.64 !important;
+  filter:none !important;
+}
+.vine-merge-glow{display:none !important}
+.vine-lotus{display:none !important}
 
-.ornament-seal{position:relative;width:min(86vw,560px);height:auto;aspect-ratio:473/113;border:0;background:transparent;cursor:pointer;z-index:6;padding:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.28));transition:transform .35s ease}
-.ornament-seal:active{transform:scale(.985)}
-.fingerprint-design{position:absolute;inset:0;overflow:visible}
-.fingerprint-half{position:absolute;top:0;width:50%;height:100%;overflow:hidden;transition:transform 1.95s cubic-bezier(.18,.72,.16,1),opacity 1.55s ease;will-change:transform,opacity}
-.fingerprint-half img{position:absolute;top:0;width:200%;height:100%;max-width:none;display:block;object-fit:fill;filter:none}
-.fingerprint-left{left:0}.fingerprint-left img{left:0}
-.fingerprint-right{right:0}.fingerprint-right img{right:0}
-.gate.split .fingerprint-left{transform:translateX(-54vw) rotate(-8deg);opacity:0}
-.gate.split .fingerprint-right{transform:translateX(54vw) rotate(8deg);opacity:0}
-.gate.split .gate-copy,.gate.split .gate-hint,.gate.split .gate-date{opacity:0;transition:opacity .55s ease}
-.gate-hint{display:block;position:absolute;left:0;right:0;bottom:-42px;color:#f7f3eb;font:500 13px "Vazirmatn";opacity:.92;letter-spacing:.08em}
-
-/* Real botanical SVG artwork only — no CSS line drawing. It starts at A FEW MOMENTS,
-   hugs the edges, converges after the last image, and finishes at the real lotus photo. */
-.story-vines{position:absolute;left:0;top:0;width:100%;height:1px;z-index:4;pointer-events:none;overflow:visible;opacity:1;clip-path:inset(0 0 100% 0);transition:clip-path .12s linear}
-.vine-asset{position:absolute;top:0;height:100%;width:min(12vw,135px);overflow:hidden;will-change:clip-path;clip-path:inset(0 0 100% 0)}
-.vine-asset img{display:block;width:100%;height:100%;object-fit:fill;opacity:.72;filter:drop-shadow(0 1px 2px rgba(43,31,20,.14))}
-.vine-left{left:0}.vine-right{right:0}
-.vine-merge-glow{position:absolute;left:50%;bottom:28px;width:180px;height:110px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(221,190,125,.18),transparent 68%);opacity:0;transition:opacity .8s ease}
-.vine-lotus-photo{position:absolute;left:50%;bottom:-8px;width:min(150px,27vw);aspect-ratio:1/1;transform:translate(-50%,18px) scale(.82);opacity:0;overflow:visible;border-radius:0;transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.8,.2,1)}
-.vine-lotus-photo img{width:100%;height:100%;display:block;object-fit:contain;object-position:center bottom;filter:saturate(.82) contrast(.96) brightness(.98)}
-.story-vines.vines-finished .vine-merge-glow{opacity:1}
-.story-vines.vines-finished .vine-lotus-photo{opacity:1;transform:translate(-50%,0) scale(1)}
+/* No decorative layer is allowed to increase the document's height. */
+#site{min-height:0 !important}
 
 @media(max-width:760px){
-  .nav-brand{width:40px;height:40px}.nav-brand img{height:28px}
-  .hero-logo{width:min(112px,27vw);margin-top:30px;margin-bottom:16px}
-  .ornament-seal{width:min(86vw,390px)}
-  .fingerprint-half{transition-duration:1.95s}
-  .gate.split .fingerprint-left{transform:translateX(-70vw) rotate(-10deg)}
-  .gate.split .fingerprint-right{transform:translateX(70vw) rotate(10deg)}
-  .vine-asset{width:min(14vw,105px);min-width:58px;max-width:105px}
-  .vine-lotus-photo{width:118px}
+  .site-nav .nav-brand img{height:25px !important}
+  .hero-content .hero-logo{
+    width:78px !important;
+    margin-top:22px !important;
+    margin-bottom:12px !important;
+    transform:translateY(12px);
+  }
+  .gate-fingerprint-safe{width:250px;height:250px}
+  .gate-fp-half{width:125px;height:250px}
+  .gate-fp-half img{width:250px;height:250px}
+  .gate-fp-right img{left:-125px}
+  .vine-asset{
+    width:13vw !important;
+    min-width:46px !important;
+    max-width:62px !important;
+  }
+  .vine-asset img{opacity:.58 !important}
+  .vine-left.is-converging{transform:translateX(var(--vine-shift,0px)) rotate(-1deg)}
+  .vine-right.is-converging{transform:translateX(calc(var(--vine-shift,0px) * -1)) rotate(1deg)}
 }
-@media(prefers-reduced-motion:reduce){.fingerprint-half{transition:none}.story-vines{display:none}}
+
+@media(prefers-reduced-motion:reduce){
+  .gate-fp-half{transition:none !important}
+}

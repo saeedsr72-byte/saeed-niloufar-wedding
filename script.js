@@ -17,15 +17,6 @@
   }
 
   const tracks = { fa: faAudio, en: enAudio };
-  // Keep both tracks loading in the background so the click-to-open gesture
-  // can start the selected song with minimal latency.
-  const audioBuffers = { fa: null, en: null };
-  const audioLoading = { fa: null, en: null };
-  const audioContext = (() => {
-    try { return new (window.AudioContext || window.webkitAudioContext)(); } catch (_) { return null; }
-  })();
-  let activeBufferSource = null;
-
   const storedLang = (() => {
     try { return sessionStorage.getItem('snWeddingLang'); } catch (_) { return null; }
   })();
@@ -45,7 +36,7 @@
     langButton.textContent = lang === 'fa' ? 'English' : 'فارسی';
     document.title = lang === 'fa'
       ? 'سعید و نیلوفر | ۱۰ شهریور ۱۴۰۵'
-      : 'Saeed & Niloufar | 1 September 2026';
+      : 'Saeed & Niloufar | 31 August 2026';
 
     const formLanguage = document.getElementById('formLanguage');
     if (formLanguage) formLanguage.value = lang === 'fa' ? 'Persian' : 'English';
@@ -56,53 +47,13 @@
       audio.pause();
       try { audio.currentTime = 0; } catch (_) {}
     });
-    if (activeBufferSource) {
-      try { activeBufferSource.stop(); } catch (_) {}
-      try { activeBufferSource.disconnect(); } catch (_) {}
-      activeBufferSource = null;
-    }
-  }
-
-  function preloadTrack(key) {
-    if (!audioContext || audioBuffers[key] || audioLoading[key]) return audioLoading[key];
-    const src = tracks[key].getAttribute('src');
-    if (!src) return null;
-    audioLoading[key] = fetch(src, { cache: 'force-cache' })
-      .then(r => { if (!r.ok) throw new Error('Audio preload failed'); return r.arrayBuffer(); })
-      .then(buf => audioContext.decodeAudioData(buf))
-      .then(decoded => { audioBuffers[key] = decoded; return decoded; })
-      .catch(() => null);
-    return audioLoading[key];
   }
 
   function playLanguageTrack() {
-    const key = lang;
-    const audio = tracks[key];
-    const other = tracks[key === 'fa' ? 'en' : 'fa'];
-
+    const audio = tracks[lang];
+    const other = lang === 'fa' ? tracks.en : tracks.fa;
     other.pause();
     try { other.currentTime = 0; } catch (_) {}
-    if (activeBufferSource) {
-      try { activeBufferSource.stop(); } catch (_) {}
-      try { activeBufferSource.disconnect(); } catch (_) {}
-      activeBufferSource = null;
-    }
-
-    // If the Web Audio buffer is already decoded, start it immediately on
-    // the same user gesture. Otherwise fall back to the native audio element.
-    if (audioContext && audioBuffers[key]) {
-      try {
-        audioContext.resume();
-        const source = audioContext.createBufferSource();
-        source.buffer = audioBuffers[key];
-        source.loop = true;
-        source.connect(audioContext.destination);
-        source.start(0);
-        activeBufferSource = source;
-        return;
-      } catch (_) {}
-    }
-
     audio.currentTime = 0;
     const promise = audio.play();
     if (promise && typeof promise.catch === 'function') promise.catch(() => {});
@@ -123,7 +74,6 @@
     opened = true;
 
     // This click is the user gesture that authorizes audio on mobile browsers.
-    if (audioContext) { try { audioContext.resume(); } catch (_) {} }
     playLanguageTrack();
 
     document.body.classList.add('gate-open');
@@ -150,15 +100,45 @@
   });
 
   openButton.addEventListener('click', openInvitation, { passive: true });
+  // Use the exact supplied fingerprint artwork and split the image itself.
+  // This avoids SVG foreignObject rendering differences on mobile browsers.
+  const fingerprintButton = document.getElementById('openInvitation');
+  const fingerprintGate = document.getElementById('gate');
+  if (fingerprintButton && fingerprintGate && !fingerprintButton.querySelector('.gate-fingerprint-safe')) {
+    const stage = document.createElement('div');
+    stage.className = 'gate-fingerprint-safe';
+    stage.setAttribute('aria-hidden', 'true');
+
+    const left = document.createElement('div');
+    const right = document.createElement('div');
+    left.className = 'gate-fp-half gate-fp-left';
+    right.className = 'gate-fp-half gate-fp-right';
+
+    const leftImg = document.createElement('img');
+    const rightImg = document.createElement('img');
+    leftImg.src = 'fingerprint-seal.png';
+    rightImg.src = 'fingerprint-seal.png';
+    leftImg.alt = '';
+    rightImg.alt = '';
+
+    left.appendChild(leftImg);
+    right.appendChild(rightImg);
+    stage.append(left, right);
+    fingerprintButton.appendChild(stage);
+
+    const syncFingerprint = () => {
+      stage.classList.toggle('split', fingerprintGate.classList.contains('split'));
+    };
+    const fpObserver = new MutationObserver(syncFingerprint);
+    fpObserver.observe(fingerprintGate, { attributes:true, attributeFilter:['class'] });
+    syncFingerprint();
+  }
+
   // Fallback for touch/click implementations that behave differently on older mobile browsers.
   openButton.onclick = openInvitation;
 
   // Initial state: gate is always present on a fresh load.
   setLanguage(lang);
-  // Start network loading immediately, but do not play until the invitation click.
-  try { faAudio.load(); enAudio.load(); } catch (_) {}
-  preloadTrack('fa');
-  preloadTrack('en');
   lockGate();
 
   // Countdown is anchored to 10 Shahrivar 1405, 19:00 Tehran.
@@ -179,7 +159,7 @@
       }
     }
     // Known conversion fallback for environments without the Persian calendar implementation.
-    return '2026-09-01';
+    return '2026-08-31';
   }
 
   const eventDate = resolvePersianEventDate();
@@ -214,35 +194,113 @@
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   }
 
-  // Botanical vine artwork starts at A FEW MOMENTS, stays close to the edges,
-  // then converges, crosses and braids toward the real lotus photograph at the bottom.
+  // Botanical vines — start EXACTLY at the bottom of the last full-bleed photo.
+  // They stay on the outer edges through the photo sequence. Only after the
+  // final photo do the two sides slowly travel inward and finish together
+  // before the OUR STORY section. No flower is introduced in this step.
   const vineScene = document.querySelector('.story-vines');
-  const gallerySection = document.querySelector('.gallery');
+  const vineAssets = Array.from(document.querySelectorAll('.vine-asset'));
 
-  function layoutVines() {
-    if (!vineScene || !gallerySection) return;
-    const start = gallerySection.offsetTop + Math.min(42, gallerySection.querySelector('.gallery-head')?.offsetHeight || 42);
-    const height = Math.max(1, site.scrollHeight - start);
-    vineScene.style.top = `${start}px`;
-    vineScene.style.height = `${height}px`;
+  if (vineScene && vineAssets.length) {
+    const lastPhoto = document.querySelector('.gallery .photo-blend:last-child');
+    const storyEnding = document.querySelector('.story-ending');
+    let startY = 0;
+    let convergeStartY = 1;
+    let endY = 1;
+    let raf = 0;
+
+    const pageY = (el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.top + window.scrollY;
+    };
+
+    const layoutVines = () => {
+      if (!lastPhoto || !storyEnding) return;
+
+      // Keep the existing edge vines exactly as they are from A FEW MOMENTS
+      // through the entire gallery. The lower movement begins only after the
+      // last gallery image has actually finished.
+      const firstPhoto = document.querySelectorAll('.story-image.full-bleed')[1];
+      startY = firstPhoto
+        ? pageY(firstPhoto) + firstPhoto.getBoundingClientRect().height
+        : pageY(lastPhoto);
+
+      // IMPORTANT: gallery images are lazy-loaded. offsetHeight can change
+      // after the first layout pass, so this value is recalculated on image
+      // load/resize below.
+      convergeStartY = pageY(lastPhoto) + lastPhoto.getBoundingClientRect().height;
+
+      // The final approach lives in the OUR STORY opening space, not inside
+      // the gallery. This gives the vines enough vertical distance to move
+      // inward slowly and meet naturally before we later add the lotus.
+      const storyTop = pageY(storyEnding);
+      const available = Math.max(0, storyEnding.getBoundingClientRect().height);
+      endY = storyTop + Math.min(available * .42, window.innerHeight * .72);
+
+      // If the layout is unusually compact, still preserve a usable approach
+      // distance rather than collapsing the animation into a few pixels.
+      if (endY <= convergeStartY + 80) {
+        endY = convergeStartY + Math.max(280, window.innerHeight * .62);
+      }
+
+      vineScene.style.top = `${startY}px`;
+      vineScene.style.height = `${Math.max(1, endY - startY)}px`;
+    };
+
+    const updateVines = () => {
+      raf = 0;
+      const lead = window.innerHeight * .68;
+      const revealP = Math.max(0, Math.min(1,
+        (window.scrollY + lead - startY) / Math.max(1, endY - startY)
+      ));
+
+      const convergeP = Math.max(0, Math.min(1,
+        (window.scrollY + lead - convergeStartY) / Math.max(1, endY - convergeStartY)
+      ));
+
+      // Reveal the original SVG artwork exactly as before.
+      vineAssets.forEach((asset, index) => {
+        const local = Math.max(0, Math.min(1, revealP * 1.025 - index * .012));
+        asset.style.clipPath = `inset(0 0 ${((1 - local) * 100).toFixed(2)}% 0)`;
+
+        // 0 until the last image is gone, then a very restrained inward drift.
+        const eased = convergeP * convergeP * (3 - 2 * convergeP);
+        const edgeGap = Math.min(41, window.innerWidth * .065);
+        const shift = eased * Math.max(0, window.innerWidth * .5 - edgeGap);
+        asset.style.setProperty('--vine-shift', `${shift.toFixed(1)}px`);
+        asset.classList.toggle('is-converging', convergeP > 0.005);
+      });
+    };
+
+    const requestVineUpdate = () => {
+      if (!raf) raf = window.requestAnimationFrame(updateVines);
+    };
+
+    const refreshVines = () => {
+      layoutVines();
+      updateVines();
+    };
+
+    // Re-layout after lazy gallery images arrive. This is the main fix for the
+    // missing lower section: the previous measurements were sometimes taken
+    // before the final photo had a real height.
+    const watchedImages = Array.from(document.querySelectorAll('.gallery img, .story-image img'));
+    watchedImages.forEach(img => {
+      if (!img.complete) img.addEventListener('load', refreshVines, { once:true });
+    });
+
+    let vineResizeObserver = null;
+    if ('ResizeObserver' in window) {
+      vineResizeObserver = new ResizeObserver(() => refreshVines());
+      [lastPhoto, storyEnding, document.querySelector('.gallery')].filter(Boolean)
+        .forEach(el => vineResizeObserver.observe(el));
+    }
+
+    refreshVines();
+    window.addEventListener('load', refreshVines, { once:true });
+    window.addEventListener('resize', refreshVines, { passive:true });
+    window.addEventListener('scroll', requestVineUpdate, { passive:true });
   }
-
-  function updateVines() {
-    if (!vineScene || !gallerySection) return;
-    layoutVines();
-    const start = parseFloat(vineScene.style.top) || gallerySection.offsetTop;
-    const height = Math.max(1, parseFloat(vineScene.style.height) || 1);
-    const trigger = window.scrollY + window.innerHeight * 0.72;
-    const progress = Math.min(1, Math.max(0, (trigger - start) / height));
-    vineScene.style.clipPath = `inset(0 0 ${((1 - progress) * 100).toFixed(2)}% 0)`;
-    if (progress > .965) vineScene.classList.add('vines-finished');
-    else vineScene.classList.remove('vines-finished');
-  }
-
-  layoutVines();
-  updateVines();
-  window.addEventListener('resize', updateVines);
-  window.addEventListener('scroll', updateVines, { passive: true });
 
   // RSVP modal.
   const rsvpOpen = document.getElementById('rsvpOpen');

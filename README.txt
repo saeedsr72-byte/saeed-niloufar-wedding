@@ -1,24 +1,29 @@
-S&N Wedding Invitation — FINAL CLEAN BUILD
+S&N Wedding Invitation — V6 Botanical / Fingerprint Gate
 
-Upload every file in this folder to the GitHub Pages repository ROOT.
-Keep the existing two audio files in the repository: Ordinary.mp3 and Pol.mp3.
-Do not rename the audio files.
+This package is based on the stable V5 build. Existing working features were preserved:
+- Persian / English reset-to-gate behavior
+- click-to-open audio on mobile
+- Persian-source countdown for 10 Shahrivar 1405 at 19:00 Tehran
+- English display date: 31 August 2026
+- Google Maps button with red pin
+- RSVP via FormSubmit to Saeed.sr72@gmail.com
+- Tehran visit time in RSVP
+- global site view counter in RSVP
+- existing wedding photos and logo
 
-Included/finalized:
-- Persian / English language toggle resets the page to the opening gate.
-- Click-to-open gate with the COMPLETE Design 04 artwork split from the exact center.
-- Click-to-open audio with background preload for lower start latency.
-- Persian-source countdown: 10 Shahrivar 1405, 19:00 Tehran.
-- English display date: 1 September 2026.
-- Header logo is transparent/no button background and follows the page.
-- Hero logo is smaller/lower so it does not cover faces.
-- Real red Google Maps pin.
-- RSVP with no default attendance selection, sent to Saeed.sr72@gmail.com.
-- Tehran visit time included in RSVP.
-- Site total view counter included in RSVP (CounterAPI best-effort).
-- Full-bleed photo storytelling with soft fade edges.
-- Real botanical SVG creepers from both edges, beginning around A FEW MOMENTS,
-  converging after the final photo and ending at a real lotus photograph.
-- No CSS-drawn vine lines and no fixed mid-page leaf decoration.
+New in V6:
+1) The previous Tilda-style gate emblem is removed.
+2) The center now uses the supplied Design 04 fingerprint artwork as a real raster asset, split into two animated halves.
+3) Minimal botanical/lotus-inspired ornament surrounds the fingerprint seal.
+4) The gate split animation is slowed to about 2.3 seconds.
+5) The old CSS-drawn vine lines and fixed mid-page leaves are removed.
+6) Two illustrated botanical creeper assets enter from the left and right edges, reveal downward with page scroll, converge near the bottom, and finish with a lotus illustration.
 
-IMPORTANT: This package intentionally does NOT contain Ordinary.mp3 or Pol.mp3.
+Important:
+- fingerprint-seal.png is a cropped/cleaned version of Design 04 from the supplied reference sheet. If the actual personal fingerprint artwork is supplied later, replace ONLY fingerprint-seal.png with the final transparent PNG; no HTML/JS change is required.
+- Do not delete vine-left.svg, vine-right.svg, or lotus.svg.
+
+Upload all files in this folder to the repository root and commit them. GitHub Pages will publish the static HTML/CSS/JS assets from the repository.
+
+AUDIO NOTE:
+Keep the existing Ordinary.mp3 and Pol.mp3 files already in your GitHub repository. They are intentionally not duplicated in this package because the current working repository already contains them and their binary files were not available in the working folder.
